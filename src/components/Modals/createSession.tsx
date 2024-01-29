@@ -4,10 +4,12 @@ import { toast } from "sonner";
 import { FaRegClipboard } from "react-icons/fa";
 import { useSetRecoilState } from "recoil";
 import { authModalState } from "@/atoms/authModalAtom";
+import { useDispatch } from "react-redux";
+import { setCollaboratorName, setEditorRoomId } from "@/redux/editorSlice";
 
 const CreateSession = () => {
   const [sessionId, setSessionId] = useState("");
-  const [inputs, setInputs] = useState({ sessionName: "" });
+  const [inputs, setInputs] = useState({ sessionName: "", sessionId: "" });
   const setAuthModalState = useSetRecoilState(authModalState);
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
@@ -16,8 +18,10 @@ const CreateSession = () => {
     setAuthModalState((prev) => ({ ...prev, type }));
   };
 
+  const dispatch = useDispatch();
+
   const generateSessionId = () =>
-    Math.random().toString(36).slice(-8).toUpperCase();
+    Math.random().toString(36).slice(-16).toUpperCase();
 
   const handleGenerateSessionId = () => {
     setSessionId(generateSessionId());
@@ -30,10 +34,14 @@ const CreateSession = () => {
   const handleCreate = async (e: any) => {
     setIsLoading(true);
     e.preventDefault();
-    if (!inputs.sessionName) {
+    if (!inputs) {
       return toast.warning("Please fill all fields");
     }
+
+    dispatch(setCollaboratorName(inputs.sessionName));
+    dispatch(setEditorRoomId(sessionId));
     setIsLoading(false);
+    router.push("/editor/${sessionId}");
   };
 
   return (
