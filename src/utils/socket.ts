@@ -1,9 +1,9 @@
-import { io } from "socket.io-client";
+import { io } from 'socket.io-client';
 
 const socketInit = async () => {
   const options = {
     forceNew: true,
-    transports: ["websocket"],
+    transports: ['websocket'],
     timeout: 10000,
   };
 
@@ -11,3 +11,5 @@ const socketInit = async () => {
 };
 
 export default socketInit;
+
+//REACT_APP_SERVER_URI=http://localhost:5000
