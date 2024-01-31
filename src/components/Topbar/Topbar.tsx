@@ -34,26 +34,26 @@ const Topbar = ({ clients }: TopbarProps) => {
   };
 
   return (
-    <nav className="flex h-[50px] w-full shrink-0 items-center bg-[#0f0f0f] text-dark-gray-7">
-      <div className="flex justify-between w-full px-5">
-        <TopLeftContainer>
-          <Link href="/" className="h-[22px]">
+    <nav className="flex h-[50px] w-full items-center bg-[#0f0f0f] px-5">
+      <div className="flex flex-grow items-center justify-start">
+        <TopLeftContainer className="flex-shrink-0">
+          <Link href="/" className="block">
             <Image src="/Icon.png" alt="Logo" height={50} width={50} />
           </Link>
         </TopLeftContainer>
+      </div>
 
-        <div className="flex items-center space-x-4 justify-end">
-          <Collaborator
-            clients={clients}
-            isDropdownOpen={isDropdownOpen}
-            setIsDropdownOpen={setIsDropdownOpen}
-          />
-          <Tooltip content="Logout" color="danger">
-            <Button size="sm" color="danger" isIconOnly onClick={onLeave}>
-              <FiLogOut />
-            </Button>
-          </Tooltip>
-        </div>
+      <div className="flex flex-grow items-center justify-end space-x-4">
+        <Collaborator
+          clients={clients}
+          isDropdownOpen={isDropdownOpen}
+          setIsDropdownOpen={setIsDropdownOpen}
+        />
+        <Tooltip content="Logout" color="danger">
+          <Button size="sm" color="danger" isIconOnly onClick={onLeave}>
+            <FiLogOut />
+          </Button>
+        </Tooltip>
       </div>
     </nav>
   );

@@ -7,7 +7,7 @@ const socketInit = async () => {
     timeout: 10000,
   };
 
-  return io(process.env.REACT_APP_SERVER_URI as string, options);
+  return io(process.env.NEXT_PUBLIC_SERVER_URI as string, options);
 };
 
 export default socketInit;

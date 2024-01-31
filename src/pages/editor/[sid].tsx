@@ -29,7 +29,7 @@ const Editor: React.FC<EditorProps> = () => {
     (async () => {
       const handleSocketError = (error: Error) => {
         toast.error('Unable to join room, try again');
-        router.push(`/auth`);
+        router.push('/auth');
       };
 
       socketRef.current = await socketInit();
@@ -64,7 +64,9 @@ const Editor: React.FC<EditorProps> = () => {
     };
   }, [collaboratorName, editorRoomId, toast, editorName, router]);
 
-  if (!collaboratorName) router.push(`/auth`);
+  if (!collaboratorName) {
+    router.push('auth');
+  }
 
   return (
     <>
