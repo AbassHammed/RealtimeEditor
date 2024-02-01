@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 import { IoIosPeople } from 'react-icons/io';
 import { BsClipboard } from 'react-icons/bs';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Badge, Button, Divider } from '@nextui-org/react';
 import { GiCheckMark } from 'react-icons/gi';
 
@@ -24,10 +24,6 @@ const Collaborator = ({ clients, isDropdownOpen, setIsDropdownOpen }: Collaborat
   const [copy, setCopy] = useState(false);
 
   const editorName = collaboratorName;
-
-  useEffect(() => {
-    console.log(clients);
-  }, [console]);
 
   const handleCopyRoomId = () => {
     setCopy(true);

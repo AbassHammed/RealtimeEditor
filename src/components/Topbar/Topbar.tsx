@@ -6,6 +6,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Tooltip, Button } from '@nextui-org/react';
 import { FiLogOut } from 'react-icons/fi';
+import AvatarDiv from './AvatarDiv';
 
 type TClients = {
   socketId: string;
@@ -41,6 +42,10 @@ const Topbar = ({ clients }: TopbarProps) => {
             <Image src="/Icon.png" alt="Logo" height={50} width={50} />
           </Link>
         </TopLeftContainer>
+      </div>
+
+      <div className="flex flex-grow items-center justify-center">
+        <AvatarDiv clients={clients} />
       </div>
 
       <div className="flex flex-grow items-center justify-end space-x-4">
