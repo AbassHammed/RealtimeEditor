@@ -9,6 +9,7 @@ import ACTIONS from '@/utils/action';
 import { RootState } from '@/redux/store';
 import socketInit from '@/utils/socket';
 import Topbar from '@/components/Topbar/Topbar';
+import Playground from '@/components/Playground/Playground';
 
 type TClients = {
   socketId: string;
@@ -32,7 +33,7 @@ const Editor: React.FC<EditorProps> = () => {
         router.push('/auth');
       };
 
-      socketRef.current = await socketInit();
+      socketRef.current = socketInit();
 
       socketRef.current.on('connect_error', err => handleSocketError(err));
       socketRef.current.on('connect_failed', err => handleSocketError(err));
@@ -55,6 +56,10 @@ const Editor: React.FC<EditorProps> = () => {
           return prev.filter(client => client.socketId !== socketId);
         });
       });
+
+      if (!collaboratorName) {
+        router.push('/auth');
+      }
     })();
 
     return () => {
@@ -62,15 +67,14 @@ const Editor: React.FC<EditorProps> = () => {
       socketRef.current?.off(ACTIONS.DISCONNECTED);
       socketRef.current?.disconnect();
     };
-  }, [collaboratorName, editorRoomId, toast, editorName, router]);
-
-  if (!collaboratorName) {
-    router.push('auth');
-  }
+  }, []);
 
   return (
     <>
-      <Topbar clients={clients} />
+      <div className="bg-[#0f0f0f] h-[100vh]">
+        <Topbar clients={clients} />
+        <Playground />
+      </div>
     </>
   );
 };

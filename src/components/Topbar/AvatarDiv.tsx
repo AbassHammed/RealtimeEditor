@@ -15,20 +15,32 @@ type AvatarDivProps = {
 const AvatarDiv: React.FC<AvatarDivProps> = ({ clients }: AvatarDivProps) => {
   const { collaboratorName } = useSelector((state: RootState) => state.editor);
 
+  function capitalizeString(input: string): string {
+    if (!input) return '';
+    return input.charAt(0).toUpperCase() + input.slice(1);
+  }
+
   const editorName = collaboratorName;
   return (
     <AvatarGroup isBordered max={6}>
       {clients &&
         clients.map(client => (
           <Tooltip
-            content={editorName === client.collaboratorName ? 'me' : client.collaboratorName}>
+            key={client.socketId}
+            content={
+              editorName === client.collaboratorName
+                ? 'me'
+                : capitalizeString(client.collaboratorName)
+            }>
             <Avatar
+              size="sm"
               color={editorName === client.collaboratorName ? 'success' : 'default'}
-              name={client.collaboratorName}
+              name={capitalizeString(client.collaboratorName)}
             />
           </Tooltip>
         ))}
     </AvatarGroup>
   );
 };
+
 export default AvatarDiv;

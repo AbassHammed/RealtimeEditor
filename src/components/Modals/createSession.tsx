@@ -6,6 +6,7 @@ import { useSetRecoilState } from 'recoil';
 import { authModalState } from '@/atoms/authModalAtom';
 import { useDispatch } from 'react-redux';
 import { setCollaboratorName, setEditorRoomId } from '@/redux/editorSlice';
+import { v4 as uuidv4 } from 'uuid';
 
 const CreateSession = () => {
   const [inputs, setInputs] = useState({ sessionName: '', sessionId: '' });
@@ -19,7 +20,11 @@ const CreateSession = () => {
 
   const dispatch = useDispatch();
 
-  const generateSessionId = () => Math.random().toString(36).slice(-16).toUpperCase();
+  const generateSessionId = () => {
+    const uuidPart = uuidv4().replace(/-/g, '').slice(0, 12);
+    const timePart = Date.now().toString(36).slice(-4);
+    return `${uuidPart}${timePart}`.toUpperCase();
+  };
 
   const handleInputChange = useCallback((e: any) => {
     setInputs(prev => ({ ...prev, [e.target.name]: e.target.value }));
@@ -72,6 +77,7 @@ const CreateSession = () => {
         <div className="relative flex items-center">
           <input
             value={inputs.sessionId}
+            onChange={e => setInputs(prevInputs => ({ ...prevInputs, sessionId: e.target.value }))}
             type="text"
             name="sessionId"
             id="sessionId"

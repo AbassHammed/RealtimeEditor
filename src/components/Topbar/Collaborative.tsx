@@ -2,11 +2,13 @@ import Avatar from 'react-avatar';
 import { toast } from 'sonner';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
-import { IoIosPeople } from 'react-icons/io';
+import { IoIosShareAlt } from 'react-icons/io';
 import { BsClipboard } from 'react-icons/bs';
 import { useState } from 'react';
-import { Badge, Button, Divider } from '@nextui-org/react';
+import { Button, Card, CardBody, Divider, Tab, Tabs } from '@nextui-org/react';
 import { GiCheckMark } from 'react-icons/gi';
+import { GoPeople } from 'react-icons/go';
+import { IoOptionsOutline } from 'react-icons/io5';
 
 type TClients = {
   socketId: string;
@@ -22,6 +24,7 @@ type CollaboratorProps = {
 const Collaborator = ({ clients, isDropdownOpen, setIsDropdownOpen }: CollaboratorProps) => {
   const { editorRoomId, collaboratorName } = useSelector((state: RootState) => state.editor);
   const [copy, setCopy] = useState(false);
+  const [selected, setSelected] = useState('share');
 
   const editorName = collaboratorName;
 
@@ -37,48 +40,78 @@ const Collaborator = ({ clients, isDropdownOpen, setIsDropdownOpen }: Collaborat
 
   return (
     <div className="relative">
-      <Badge content={clients?.length} color="success">
-        <Button
-          onClick={() => setIsDropdownOpen((prev: boolean) => !prev)}
-          color="success"
-          variant="bordered"
-          startContent={<IoIosPeople />}>
-          {' '}
-          Collaborators{' '}
-        </Button>
-      </Badge>
+      <Button
+        onClick={() => setIsDropdownOpen((prev: boolean) => !prev)}
+        color="success"
+        size="sm"
+        className="p-2 m-0"
+        startContent={<IoOptionsOutline />}>
+        {' '}
+        Options{' '}
+      </Button>
 
       {isDropdownOpen && (
-        <div className="absolute z-50 w-80 top-14 right-0 bg-zinc-800 p-4 border-2 border-gray-600 rounded-sm drop-shadow-xl">
-          <Button
-            color={copy ? 'success' : 'primary'}
-            className="w-full"
-            startContent={copy ? <GiCheckMark /> : <BsClipboard />}
-            onClick={handleCopyRoomId}>
-            {copy ? 'Copied' : 'Copy Invite Code'}
-          </Button>
-          <Divider className="my-4 bg-white" />
-          <div className="max-h-48 mt-3 overflow-y-auto">
-            {clients &&
-              clients.map(client => (
-                <div className="flex items-center gap-3 py-2 text-white" key={client.socketId}>
-                  <Avatar
-                    name={client.collaboratorName}
-                    size="36"
-                    round="4px"
-                    maxInitials={1}
-                    textSizeRatio={2}
-                  />
-                  <p>
-                    {client.collaboratorName}
-                    <span className="text-xs font-semibold text-zinc-400">
-                      {editorName === client.collaboratorName && ' (😛)'}
-                    </span>
-                  </p>
+        <Card className="absolute z-50 w-80 top-12 right-0 bg-[#0f0f0f] p-4 border-2 rounded-xl">
+          <CardBody className="overflow-hidden p-0">
+            <Tabs
+              fullWidth
+              size="md"
+              aria-label="Tabs form"
+              selectedKey={selected}
+              onSelectionChange={setSelected}
+              variant="bordered"
+              color="success">
+              <Tab
+                key="share"
+                title={
+                  <div className="flex items-center space-x-2">
+                    <IoIosShareAlt />
+                    <span>Share</span>
+                  </div>
+                }>
+                <Button
+                  color={copy ? 'success' : 'primary'}
+                  className="w-full"
+                  startContent={copy ? <GiCheckMark /> : <BsClipboard />}
+                  onClick={handleCopyRoomId}>
+                  {copy ? 'Copied' : 'Copy Invite Code'}
+                </Button>
+                <Divider className="my-4 bg-white" />
+              </Tab>
+              <Tab
+                key="people"
+                title={
+                  <div className="flex items-center space-x-2">
+                    <GoPeople />
+                    <span>Connected</span>
+                  </div>
+                }>
+                <div className="max-h-48 mt-3 overflow-y-auto">
+                  {clients &&
+                    clients.map(client => (
+                      <div
+                        className="flex items-center gap-3 py-2 text-white"
+                        key={client.socketId}>
+                        <Avatar
+                          name={client.collaboratorName}
+                          size="36"
+                          round="4px"
+                          maxInitials={1}
+                          textSizeRatio={2}
+                        />
+                        <p>
+                          {client.collaboratorName}
+                          <span className="text-xs font-semibold text-zinc-400">
+                            {editorName === client.collaboratorName && ' (😛)'}
+                          </span>
+                        </p>
+                      </div>
+                    ))}
                 </div>
-              ))}
-          </div>
-        </div>
+              </Tab>
+            </Tabs>
+          </CardBody>
+        </Card>
       )}
     </div>
   );
