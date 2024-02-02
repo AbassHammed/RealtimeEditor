@@ -2,12 +2,16 @@ import React, { useState, useEffect } from 'react';
 import { AiOutlineFullscreen, AiOutlineFullscreenExit, AiOutlineSetting } from 'react-icons/ai';
 import { ISettings } from '../Playground';
 import SettingsModal from '@/components/Modals/SettingsModal';
-// import DropDown from '@/components/Buttons/Dropdown';
+import DropDown from '@/components/Buttons/Dropdown';
+import { DefaultEventsMap } from '@socket.io/component-emitter';
+import { Socket } from 'socket.io-client';
 
 type PreferenceNavProps = {
+  socketRef: Socket<DefaultEventsMap, DefaultEventsMap> | null;
   settings: ISettings;
   setSettings: React.Dispatch<React.SetStateAction<ISettings>>;
   onLanguageSelect: (language: string) => void;
+  editorRoomId: string;
 };
 interface TooltipProps {
   show: boolean;
@@ -21,7 +25,13 @@ const Tooltip = ({ show, children }: TooltipProps) => (
   </div>
 );
 
-const PreferenceNav = ({ onLanguageSelect, setSettings, settings }: PreferenceNavProps) => {
+const PreferenceNav = ({
+  onLanguageSelect,
+  setSettings,
+  settings,
+  editorRoomId,
+  socketRef,
+}: PreferenceNavProps) => {
   const [isFullScreen, setIsFullScreen] = useState(false);
   const [showTooltip, setShowTooltip] = useState<string | null>(null);
 
@@ -55,7 +65,11 @@ const PreferenceNav = ({ onLanguageSelect, setSettings, settings }: PreferenceNa
   return (
     <div className="flex items-center justify-between bg-[#303030] h-9 w-full overflow-x-hidden rounded-t-lg shadow-md">
       <div className="flex items-center text-white">
-        {/* <DropDown onLanguageSelect={onLanguageSelect} /> */}
+        <DropDown
+          socketRef={socketRef}
+          editorRoomId={editorRoomId}
+          onLanguageSelect={onLanguageSelect}
+        />
       </div>
       <div className="flex items-center m-1 relative">
         <button

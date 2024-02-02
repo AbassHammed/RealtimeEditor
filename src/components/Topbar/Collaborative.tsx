@@ -3,13 +3,12 @@ import { toast } from 'sonner';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 import { IoIosShareAlt } from 'react-icons/io';
-import { BsClipboard } from 'react-icons/bs';
 import { useState } from 'react';
 import { Button, Card, CardBody, Divider, Tab, Tabs } from '@nextui-org/react';
 import { GiCheckMark } from 'react-icons/gi';
 import { GoPeople } from 'react-icons/go';
 import { IoOptionsOutline } from 'react-icons/io5';
-
+import CopyDocumentIcon from '@/components/Icons/CopyDocumentIcon';
 type TClients = {
   socketId: string;
   collaboratorName: string;
@@ -72,7 +71,7 @@ const Collaborator = ({ clients, isDropdownOpen, setIsDropdownOpen }: Collaborat
                 <Button
                   color={copy ? 'success' : 'primary'}
                   className="w-full"
-                  startContent={copy ? <GiCheckMark /> : <BsClipboard />}
+                  startContent={copy ? <GiCheckMark /> : <CopyDocumentIcon />}
                   onClick={handleCopyRoomId}>
                   {copy ? 'Copied' : 'Copy Invite Code'}
                 </Button>
