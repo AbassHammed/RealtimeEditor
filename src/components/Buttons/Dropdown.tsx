@@ -49,13 +49,13 @@ const DropDown: React.FC<DropDownProps> = ({ onLanguageSelect, editorRoomId, soc
 
   // When a new language is selected, update the selectedKey state
   // and call onLanguageSelect with the new key.
-  const handleSelectionChange = (key: string) => {
-    setSelectedKey(key);
-    onLanguageSelect(key);
+  const handleSelectionChange = (language: string) => {
+    setSelectedKey(language);
+    onLanguageSelect(language);
 
     socketRef?.emit(ACTIONS.LANGUAGE_CHANGE, {
       editorRoomId,
-      key,
+      language,
     });
   };
 
@@ -65,6 +65,7 @@ const DropDown: React.FC<DropDownProps> = ({ onLanguageSelect, editorRoomId, soc
         <Button
           size="sm"
           variant="bordered"
+          color="success"
           className="capitalize"
           startContent={SelectedIcon && <SelectedIcon />}>
           {selectedKey}
@@ -76,14 +77,12 @@ const DropDown: React.FC<DropDownProps> = ({ onLanguageSelect, editorRoomId, soc
         disallowEmptySelection
         selectionMode="single"
         selectedKeys={new Set([selectedKey])}
-        onSelectionChange={keys => handleSelectionChange(Array.from(keys)[0])}>
-        {
-          Languages.map(Language => (
-            <DropdownItem startContent={<Language.icon />} key={Language.key}>
-              {Language.key}
-            </DropdownItem>
-          )) as unknown as CollectionElement<object>
-        }
+        onSelectionChange={keys => handleSelectionChange(Array.from(keys)[0] as string)}>
+        {Languages.map(Language => (
+          <DropdownItem startContent={<Language.icon />} key={Language.key}>
+            {Language.key}
+          </DropdownItem>
+        ))}
       </DropdownMenu>
     </Dropdown>
   );

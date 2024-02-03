@@ -12,16 +12,9 @@ import 'codemirror/mode/javascript/javascript';
 import 'codemirror/mode/python/python';
 import 'codemirror/theme/material.css';
 import CodeMirror, { EditorFromTextArea } from 'codemirror';
-import useLocalStorage from '@/hooks/useLocalStorage';
 import { Socket } from 'socket.io-client';
 import { DefaultEventsMap } from '@socket.io/component-emitter';
 import ACTIONS from '@/utils/action';
-
-export interface ISettings {
-  fontSize: string;
-  settingsModalIsOpen: boolean;
-  dropdownIsOpen: boolean;
-}
 
 type PlaygroundProps = {
   socketRef: Socket<DefaultEventsMap, DefaultEventsMap> | null;
@@ -31,12 +24,6 @@ type PlaygroundProps = {
 
 const Playground = ({ socketRef, onCodeChange, editorRoomId }: PlaygroundProps) => {
   /* eslint-disable */
-  const [fontSize, setFontSize] = useLocalStorage('lcc-fontSize', '16px');
-  const [settings, setSettings] = useState({
-    fontSize,
-    settingsModalIsOpen: false,
-    dropdownIsOpen: false,
-  });
   const editorRef = useRef<EditorFromTextArea | null>(null);
   const [selectedLanguage, setSelectedLanguage] = useState('C++');
   /* eslint-enable */
@@ -96,12 +83,10 @@ const Playground = ({ socketRef, onCodeChange, editorRoomId }: PlaygroundProps) 
   const handleLanguageSelect = (language: string) => setSelectedLanguage(language);
 
   return (
-    <div className="flex flex-col relative bg-[#0f0f0f] h-[calc(100vh-58px)] rounded-lg shadow-xl overflow-hidden mr-2 ml-2 mb-2">
+    <div className="flex flex-col relative bg-[#0f0f0f] h-[calc(100vh-58px)] rounded-lg shadow-xl overflow-hidden mr-2 ml-2 mb-2 z-40">
       <PreferenceNav
         socketRef={socketRef}
         editorRoomId={editorRoomId}
-        settings={settings}
-        setSettings={setSettings}
         onLanguageSelect={handleLanguageSelect}
       />
       <div className="w-full h-screen overflow-auto bg-[#282828] shadow-xl select-none">

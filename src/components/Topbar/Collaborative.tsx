@@ -57,7 +57,7 @@ const Collaborator = ({ clients, isDropdownOpen, setIsDropdownOpen }: Collaborat
               size="md"
               aria-label="Tabs form"
               selectedKey={selected}
-              onSelectionChange={setSelected}
+              onSelectionChange={keys => setSelected(keys as string)}
               variant="bordered"
               color="success">
               <Tab
