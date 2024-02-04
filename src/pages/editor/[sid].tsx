@@ -40,7 +40,9 @@ const Editor: React.FC = () => {
       socketRef.current.emit(ACTIONS.JOIN, { editorRoomId, collaboratorName });
 
       socketRef.current.on(ACTIONS.JOINED, ({ clients, collaboratorName, socketId }) => {
-        if (collaboratorName !== editorName) {toast.info(`${collaboratorName} has joined the session`);}
+        if (collaboratorName !== editorName) {
+          toast.info(`${collaboratorName} has joined the session`);
+        }
         setClients(clients);
         socketRef.current?.emit(ACTIONS.SYNC_CODE, {
           code: codeRef.current,
@@ -67,7 +69,7 @@ const Editor: React.FC = () => {
 
   return (
     <>
-      <div className="bg-[#0f0f0f] h-[100vh]">
+      <div className="bg-[#0f0f0f] h-screen">
         <Topbar clients={clients} />
         <Playground
           editorRoomId={editorRoomId}

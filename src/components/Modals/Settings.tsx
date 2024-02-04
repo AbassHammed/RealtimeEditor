@@ -16,12 +16,17 @@ import { AiOutlineSetting } from 'react-icons/ai';
 
 const EDITOR_FONT_SIZES = ['12px', '13px', '14px', '15px', '16px', '17px', '18px'];
 
-const Settings = () => {
-  const [fontSize, setFontSize] = useLocalStorage('lcc-fontSize', '16px');
+interface SettingsProps {
+  onFontSizeChange: (fontSize: string) => void;
+}
+
+const Settings: React.FC<SettingsProps> = ({ onFontSizeChange }) => {
+  const [fontSize, setFontSize] = useLocalStorage('lcc-fontSize', '13px');
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const handleFontSizeChange = (fontSize: string) => {
     setFontSize(fontSize);
+    onFontSizeChange(fontSize);
   };
   return (
     <div>
@@ -48,7 +53,11 @@ const Settings = () => {
                   <p>Choose your preferred font size </p>
                   <Dropdown>
                     <DropdownTrigger>
-                      <Button size="sm" variant="bordered" color="success" className="capitalize">
+                      <Button
+                        size="sm"
+                        variant="bordered"
+                        color="success"
+                        className="capitalize h-9 w-5">
                         {fontSize as string}
                       </Button>
                     </DropdownTrigger>

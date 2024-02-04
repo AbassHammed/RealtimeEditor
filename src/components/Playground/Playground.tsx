@@ -10,11 +10,28 @@ import 'codemirror/lib/codemirror.css';
 import 'codemirror/mode/clike/clike';
 import 'codemirror/mode/javascript/javascript';
 import 'codemirror/mode/python/python';
-import 'codemirror/theme/material.css';
+import 'codemirror/theme/material-darker.css';
+import 'codemirror/theme/ayu-dark.css';
 import CodeMirror, { EditorFromTextArea } from 'codemirror';
 import { Socket } from 'socket.io-client';
 import { DefaultEventsMap } from '@socket.io/component-emitter';
 import ACTIONS from '@/utils/action';
+import EditorFooter from './Footer';
+
+type Language = 'C++' | 'C' | 'JavaScript' | 'Python';
+const languageModes: Record<Language, string> = {
+  'C++': 'clike',
+  C: 'clike',
+  JavaScript: 'javascript',
+  Python: 'python',
+};
+
+const fileExtensions: Record<Language, string> = {
+  C: '.c',
+  'C++': '.cpp',
+  JavaScript: '.js',
+  Python: '.py',
+};
 
 type PlaygroundProps = {
   socketRef: Socket<DefaultEventsMap, DefaultEventsMap> | null;
@@ -23,17 +40,17 @@ type PlaygroundProps = {
 };
 
 const Playground = ({ socketRef, onCodeChange, editorRoomId }: PlaygroundProps) => {
-  /* eslint-disable */
   const editorRef = useRef<EditorFromTextArea | null>(null);
-  const [selectedLanguage, setSelectedLanguage] = useState('C++');
-  /* eslint-enable */
+  const [selectedLanguage, setSelectedLanguage] = useState<Language>('C++');
+  const [fontSize, setFontSize] = useState('13px');
+  const [currentCode, setCurrentCode] = useState('');
 
   useEffect(() => {
     editorRef.current = CodeMirror.fromTextArea(
       document.getElementById('code') as HTMLTextAreaElement,
       {
-        mode: { name: 'python', version: 3, singleLineStringErrors: false },
-        theme: 'material',
+        mode: { name: languageModes[selectedLanguage] },
+        theme: 'ayu-dark',
         autoRefresh: true,
         autoCloseTags: true,
         autocorrect: true,
@@ -48,10 +65,10 @@ const Playground = ({ socketRef, onCodeChange, editorRoomId }: PlaygroundProps) 
         styleActiveLine: true,
       },
     );
-
     editorRef.current.on('change', (instance, changes) => {
       const { origin } = changes;
       const code = instance.getValue();
+      setCurrentCode(code);
       onCodeChange(code);
       if (origin !== 'setValue') {
         socketRef?.emit(ACTIONS.CODE_CHANGE, {
@@ -60,11 +77,12 @@ const Playground = ({ socketRef, onCodeChange, editorRoomId }: PlaygroundProps) 
         });
       }
     });
-
+    editorRef.current.getWrapperElement().style.fontSize = fontSize;
+    editorRef.current.refresh();
     return () => {
       editorRef.current!.toTextArea();
     };
-  }, [editorRoomId, onCodeChange, socketRef]);
+  }, [editorRoomId, onCodeChange, socketRef, selectedLanguage, fontSize, setCurrentCode]);
 
   useEffect(() => {
     if (socketRef) {
@@ -80,7 +98,20 @@ const Playground = ({ socketRef, onCodeChange, editorRoomId }: PlaygroundProps) 
     };
   }, [socketRef]);
 
-  const handleLanguageSelect = (language: string) => setSelectedLanguage(language);
+  const handleGenerate = () => {
+    const fileExtension = fileExtensions[selectedLanguage];
+    const blob = new Blob([currentCode], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `code${fileExtension}`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  };
+
+  const handleLanguageSelect = (language: string) => setSelectedLanguage(language as Language);
+  const handleFontSizeChange = (fontSize: string) => setFontSize(fontSize);
 
   return (
     <div className="flex flex-col relative bg-[#0f0f0f] h-[calc(100vh-58px)] rounded-lg shadow-xl overflow-hidden mr-2 ml-2 mb-2 z-40">
@@ -88,11 +119,12 @@ const Playground = ({ socketRef, onCodeChange, editorRoomId }: PlaygroundProps) 
         socketRef={socketRef}
         editorRoomId={editorRoomId}
         onLanguageSelect={handleLanguageSelect}
+        onFontSizeChange={handleFontSizeChange}
       />
-      <div className="w-full h-screen overflow-auto bg-[#282828] shadow-xl select-none">
-        <textarea name="code" id="code" className="w-full h-full"></textarea>
+      <div className="w-full h-screen overflow-auto bg-[#282828] shadow-xl">
+        <textarea name="code" id="code" className="w-full h-screen"></textarea>
       </div>
-      {/* <EditorFooter handleGenerate={handleGenerate} /> */}
+      <EditorFooter handleGenerate={handleGenerate} />
     </div>
   );
 };

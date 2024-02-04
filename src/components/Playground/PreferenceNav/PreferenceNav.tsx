@@ -10,9 +10,15 @@ type PreferenceNavProps = {
   socketRef: Socket<DefaultEventsMap, DefaultEventsMap> | null;
   onLanguageSelect: (language: string) => void;
   editorRoomId: string;
+  onFontSizeChange: (fontSize: string) => void;
 };
 
-const PreferenceNav = ({ onLanguageSelect, editorRoomId, socketRef }: PreferenceNavProps) => {
+const PreferenceNav = ({
+  onLanguageSelect,
+  editorRoomId,
+  socketRef,
+  onFontSizeChange,
+}: PreferenceNavProps) => {
   const [isFullScreen, setIsFullScreen] = useState(false);
 
   const handleFullScreenToggle = () => {
@@ -43,7 +49,7 @@ const PreferenceNav = ({ onLanguageSelect, editorRoomId, socketRef }: Preference
   }, []);
 
   return (
-    <div className="flex items-center justify-between bg-[#303030] h-9 w-full overflow-x-hidden rounded-t-lg shadow-md z-40">
+    <div className="flex items-center justify-between bg-[#303030] h-10 w-full overflow-x-hidden rounded-t-lg shadow-md z-40">
       <div className="flex items-center text-white">
         <DropDown
           socketRef={socketRef}
@@ -51,8 +57,8 @@ const PreferenceNav = ({ onLanguageSelect, editorRoomId, socketRef }: Preference
           onLanguageSelect={onLanguageSelect}
         />
       </div>
-      <div className="flex items-center m-1 relative justify-end">
-        <Settings />
+      <div className="flex items-center relative justify-end">
+        <Settings onFontSizeChange={onFontSizeChange} />
 
         <Button
           isIconOnly
