@@ -2,21 +2,14 @@ import React, { useState, useCallback } from 'react';
 import { useRouter } from 'next/router';
 import { toast } from 'sonner';
 import { FaRegClipboard } from 'react-icons/fa';
-import { useSetRecoilState } from 'recoil';
-import { authModalState } from '@/atoms/authModalAtom';
 import { useDispatch } from 'react-redux';
 import { setCollaboratorName, setEditorRoomId } from '@/redux/editorSlice';
 import { v4 as uuidv4 } from 'uuid';
 
 const CreateSession = () => {
   const [inputs, setInputs] = useState({ sessionName: '', sessionId: '' });
-  const setAuthModalState = useSetRecoilState(authModalState);
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
-
-  const handleClick = (type: 'join' | 'create') => {
-    setAuthModalState(prev => ({ ...prev, type }));
-  };
 
   const dispatch = useDispatch();
 
@@ -55,7 +48,7 @@ const CreateSession = () => {
       <h3 className="text-xl font-medium text-white">Create a session</h3>
       <div>
         <label htmlFor="sessionName" className="text-sm font-medium block mb-2 text-gray-300">
-          Give your session a name
+          Your name
         </label>
         <input
           onChange={handleInputChange}
@@ -66,7 +59,7 @@ const CreateSession = () => {
             border-2 outline-none sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5
             bg-gray-600 border-gray-500 placeholder-gray-400 text-white
         "
-          placeholder="TP Algorithmique"
+          placeholder="John Doe"
         />
       </div>
 
@@ -99,12 +92,6 @@ const CreateSession = () => {
             ">
         {isLoading ? 'creating...' : 'Create'}
       </button>
-      <div className="text-sm font-medium text-gray-300">
-        Want to join a session{' '}
-        <a href="#" className="text-blue-700 hover:underline" onClick={() => handleClick('join')}>
-          Join a Seesion
-        </a>
-      </div>
     </form>
   );
 };
