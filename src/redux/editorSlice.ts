@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 interface IInitialState {
   editorRoomId: string;
@@ -6,12 +6,12 @@ interface IInitialState {
 }
 
 const initialState: IInitialState = {
-  editorRoomId: "",
-  collaboratorName: "",
+  editorRoomId: '',
+  collaboratorName: '',
 };
 
 const editorSlice = createSlice({
-  name: "editor",
+  name: 'editor',
   initialState,
   reducers: {
     setEditorRoomId: (state, action) => {

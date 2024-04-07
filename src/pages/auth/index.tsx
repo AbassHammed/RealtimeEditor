@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from "react";
-import { authModalState } from "@/atoms/authModalAtom";
-import Navbar from "@/components/Navbar/Navbar";
-import AuthModal from "@/components/Modals/AuthModal";
-import { useRecoilValue, useSetRecoilState } from "recoil";
-import Image from "next/image";
+import React, { useEffect } from 'react';
+import { authModalState } from '@/atoms/authModalAtom';
+import Navbar from '@/components/Navbar/Navbar';
+import AuthModal from '@/components/Modals/AuthModal';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import Image from 'next/image';
 
 const AuthPage: React.FC = () => {
   const authModal = useRecoilValue(authModalState);
   const setAuthModalState = useSetRecoilState(authModalState);
 
   useEffect(() => {
-    setAuthModalState((prev) => ({ ...prev, isOpen: false }));
+    setAuthModalState(prev => ({ ...prev, isOpen: false }));
   }, [setAuthModalState]);
 
   return (

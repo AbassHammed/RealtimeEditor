@@ -1,16 +1,16 @@
-import { atom } from "recoil";
+import { atom } from 'recoil';
 
 type AuthModalState = {
   isOpen: boolean;
-  type: "join" | "create";
+  type: 'join' | 'create';
 };
 
 const initialAuthModalState: AuthModalState = {
   isOpen: false,
-  type: "create",
+  type: 'create',
 };
 
 export const authModalState = atom<AuthModalState>({
-  key: "authModalState",
+  key: 'authModalState',
   default: initialAuthModalState,
 });

@@ -16,7 +16,9 @@ const AvatarDiv: React.FC<AvatarDivProps> = ({ clients }: AvatarDivProps) => {
   const { collaboratorName } = useSelector((state: RootState) => state.editor);
 
   function capitalizeString(input: string): string {
-    if (!input) return '';
+    if (!input) {
+      return '';
+    }
     return input.charAt(0).toUpperCase() + input.slice(1);
   }
 

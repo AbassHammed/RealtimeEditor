@@ -96,6 +96,3 @@ const JoinSession = () => {
   );
 };
 export default JoinSession;
-function dispatch(arg0: { payload: any; type: 'editor/setCollaboratorName' }) {
-  throw new Error('Function not implemented.');
-}

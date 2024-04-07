@@ -1,5 +1,5 @@
-import { configureStore } from "@reduxjs/toolkit";
-import editorSlice from "./editorSlice";
+import { configureStore } from '@reduxjs/toolkit';
+import editorSlice from './editorSlice';
 
 export const store = configureStore({
   reducer: {
