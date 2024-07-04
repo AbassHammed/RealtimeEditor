@@ -1,15 +1,19 @@
-import React, { useState, useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
+
 import { useRouter } from 'next/router';
-import { toast } from 'sonner';
+
+import { setCollaboratorName, setEditorRoomId } from '@/redux/editorSlice';
 import { FaRegClipboard } from 'react-icons/fa';
 import { useDispatch } from 'react-redux';
-import { setCollaboratorName, setEditorRoomId } from '@/redux/editorSlice';
 import { v4 as uuidv4 } from 'uuid';
+
+import { useToast } from '../Shared/toast';
 
 const CreateSession = () => {
   const [inputs, setInputs] = useState({ sessionName: '', sessionId: '' });
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
+  const { toast } = useToast();
 
   const dispatch = useDispatch();
 
@@ -34,7 +38,7 @@ const CreateSession = () => {
 
     if (!inputs.sessionId || !inputs.sessionName) {
       setIsLoading(false);
-      return toast.warning('Please fill all fields');
+      return toast({ variant: 'warn', description: 'Please fill all fields' });
     }
 
     dispatch(setCollaboratorName(inputs.sessionName));

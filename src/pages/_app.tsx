@@ -1,22 +1,15 @@
 import '@/styles/globals.css';
-import Head from 'next/head';
+
 import type { AppProps } from 'next/app';
-import { RecoilRoot } from 'recoil';
-import { useEffect } from 'react';
-import { Toaster } from 'sonner';
+import Head from 'next/head';
+
+import { Toaster } from '@/components/Shared/toast';
+import { store } from '@/redux/store';
 import { NextUIProvider } from '@nextui-org/react';
 import { Provider } from 'react-redux';
-import { store } from '@/redux/store';
+import { RecoilRoot } from 'recoil';
 
 export default function App({ Component, pageProps }: AppProps) {
-  useEffect(() => {
-    const preventCopy = (event: { preventDefault: () => any }) => event.preventDefault();
-    document.addEventListener('copy', preventCopy);
-
-    return () => {
-      document.removeEventListener('copy', preventCopy);
-    };
-  }, []);
   return (
     <RecoilRoot>
       <Provider store={store}>
@@ -26,7 +19,7 @@ export default function App({ Component, pageProps }: AppProps) {
           <meta name="viewport" content="width=device-width, initial-scale=1" />
           <link rel="icon" href="/Icon.png" sizes="180*180" />
         </Head>
-        <Toaster richColors position="top-center" closeButton />
+        <Toaster />
         <NextUIProvider>
           <Component {...pageProps} />
         </NextUIProvider>

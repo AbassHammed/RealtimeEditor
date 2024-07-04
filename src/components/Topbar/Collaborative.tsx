@@ -1,5 +1,4 @@
 import Avatar from 'react-avatar';
-import { toast } from 'sonner';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 import { IoIosShareAlt } from 'react-icons/io';
@@ -9,6 +8,7 @@ import { GiCheckMark } from 'react-icons/gi';
 import { GoPeople } from 'react-icons/go';
 import { IoOptionsOutline } from 'react-icons/io5';
 import CopyDocumentIcon from '@/components/Icons/CopyDocumentIcon';
+import { useToast } from '../Shared/toast';
 type TClients = {
   socketId: string;
   collaboratorName: string;
@@ -24,13 +24,17 @@ const Collaborator = ({ clients, isDropdownOpen, setIsDropdownOpen }: Collaborat
   const { editorRoomId, collaboratorName } = useSelector((state: RootState) => state.editor);
   const [copy, setCopy] = useState(false);
   const [selected, setSelected] = useState('share');
+  const { toast } = useToast();
 
   const editorName = collaboratorName;
 
   const handleCopyRoomId = () => {
     setCopy(true);
     navigator.clipboard.writeText(editorRoomId).then(() => {
-      toast.success('Room Id copied successfully');
+      toast({
+        variant: 'default',
+        description: 'Room Id copied successfully',
+      });
       setTimeout(() => {
         setCopy(false);
       }, 3000);

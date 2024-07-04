@@ -2,13 +2,13 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Socket } from 'socket.io-client';
 import { useRouter } from 'next/router';
 import { DefaultEventsMap } from '@socket.io/component-emitter';
-import { toast } from 'sonner';
 import { useSelector } from 'react-redux';
 import ACTIONS from '@/utils/action';
 import { RootState } from '@/redux/store';
 import socketInit from '@/utils/socket';
 import Topbar from '@/components/Topbar/Topbar';
 import Playground from '@/components/Playground/Playground';
+import { useToast } from '@/components/Shared/toast';
 
 type TClients = {
   socketId: string;
@@ -22,13 +22,14 @@ const Editor: React.FC = () => {
   const { editorRoomId, collaboratorName } = useSelector((state: RootState) => state.editor);
   const router = useRouter();
   const editorName = collaboratorName;
+  const { toast } = useToast();
 
   useEffect(() => {
     (async () => {
       /* eslint-disable */
       const handleSocketError = (error: Error) => {
         /* eslint-enable */
-        toast.error('Unable to join room, try again');
+        toast({ variant: 'destructive', description: 'Unable to join room, try again' });
         router.push('/auth');
       };
 
@@ -41,7 +42,7 @@ const Editor: React.FC = () => {
 
       socketRef.current.on(ACTIONS.JOINED, ({ clients, collaboratorName, socketId }) => {
         if (collaboratorName !== editorName) {
-          toast.info(`${collaboratorName} has joined the session`);
+          toast({ variant: 'default', description: `${collaboratorName} has joined the session` });
         }
         setClients(clients);
         socketRef.current?.emit(ACTIONS.SYNC_CODE, {
@@ -51,7 +52,7 @@ const Editor: React.FC = () => {
       });
 
       socketRef.current.on(ACTIONS.DISCONNECTED, ({ socketId, collaboratorName }) => {
-        toast.info(`${collaboratorName} has left the session`);
+        toast({ variant: 'default', description: `${collaboratorName} has left the session` });
         setClients(prev => prev.filter(client => client.socketId !== socketId));
       });
 
@@ -65,7 +66,7 @@ const Editor: React.FC = () => {
       socketRef.current?.off(ACTIONS.DISCONNECTED);
       socketRef.current?.disconnect();
     };
-  }, [editorRoomId, collaboratorName, editorName, router]);
+  }, [editorRoomId, collaboratorName, editorName, router, toast]);
 
   return (
     <>

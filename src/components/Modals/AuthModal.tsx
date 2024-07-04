@@ -1,12 +1,12 @@
-import { authModalState } from '@/atoms/authModalAtom';
 import React, { useEffect } from 'react';
+
+import { authModalState } from '@/atoms/authModalAtom';
 import { IoClose } from 'react-icons/io5';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
-import JoinSession from './joinSession';
+import { useSetRecoilState } from 'recoil';
+
 import CreateSession from './createSession';
 
 const AuthModal: React.FC = () => {
-  const authModal = useRecoilValue(authModalState);
   const closeModal = useCloseModal();
   return (
     <>
@@ -24,7 +24,7 @@ const AuthModal: React.FC = () => {
                 <IoClose className="h-5 w-5" />
               </button>
             </div>
-            {authModal.type === 'create' ? <CreateSession /> : <JoinSession />}
+            <CreateSession />
           </div>
         </div>
       </div>
