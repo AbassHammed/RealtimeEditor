@@ -2,7 +2,7 @@ import { atom } from 'recoil';
 
 type AuthModalState = {
   isOpen: boolean;
-  type: 'join' | 'create';
+  type: 'create';
 };
 
 const initialAuthModalState: AuthModalState = {

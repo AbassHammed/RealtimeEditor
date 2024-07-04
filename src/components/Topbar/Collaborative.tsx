@@ -32,7 +32,7 @@ const Collaborator = ({ clients, isDropdownOpen, setIsDropdownOpen }: Collaborat
     setCopy(true);
     navigator.clipboard.writeText(editorRoomId).then(() => {
       toast({
-        variant: 'default',
+        variant: 'warn',
         description: 'Room Id copied successfully',
       });
       setTimeout(() => {
