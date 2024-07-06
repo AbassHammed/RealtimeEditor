@@ -24,7 +24,7 @@ const Playground = ({ socketRef, onCodeChange, editorRoomId }: PlaygroundProps) 
     onCodeChange(value);
     socketRef?.emit(ACTIONS.CODE_CHANGE, {
       editorRoomId,
-      currentCode,
+      code: value,
     });
   };
 
