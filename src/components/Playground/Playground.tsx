@@ -1,38 +1,12 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import PreferenceNav from './PreferenceNav/PreferenceNav';
-import 'codemirror/addon/display/autorefresh';
-import 'codemirror/addon/edit/closebrackets';
-import 'codemirror/addon/edit/closetag';
-import 'codemirror/addon/edit/matchbrackets';
-import 'codemirror/addon/lint/lint';
-import 'codemirror/addon/selection/active-line';
-import 'codemirror/lib/codemirror.css';
-import 'codemirror/mode/clike/clike';
-import 'codemirror/mode/javascript/javascript';
-import 'codemirror/mode/python/python';
-import 'codemirror/theme/material-darker.css';
-import 'codemirror/theme/ayu-dark.css';
-import CodeMirror, { EditorFromTextArea } from 'codemirror';
 import { Socket } from 'socket.io-client';
 import { DefaultEventsMap } from '@socket.io/component-emitter';
 import ACTIONS from '@/utils/action';
 import EditorFooter from './Footer';
 import { useReadLocalStorage } from '@/hooks/useReadLocalStorage';
-
-type Language = 'C++' | 'C' | 'JavaScript' | 'Python';
-const languageModes: Record<Language, string> = {
-  'C++': 'clike',
-  C: 'clike',
-  JavaScript: 'javascript',
-  Python: 'python',
-};
-
-const fileExtensions: Record<Language, string> = {
-  C: '.c',
-  'C++': '.cpp',
-  JavaScript: '.js',
-  Python: '.py',
-};
+import CodeMirror from '@uiw/react-codemirror';
+import { languages } from '@/lib/lang';
 
 type PlaygroundProps = {
   socketRef: Socket<DefaultEventsMap, DefaultEventsMap> | null;
@@ -41,57 +15,24 @@ type PlaygroundProps = {
 };
 
 const Playground = ({ socketRef, onCodeChange, editorRoomId }: PlaygroundProps) => {
-  const editorRef = useRef<EditorFromTextArea | null>(null);
-  const [selectedLanguage, setSelectedLanguage] = useState<Language>('C++');
+  const [selectedLanguage, setSelectedLanguage] = useState('C++');
   const fontSize = useReadLocalStorage<string>('lcc-fontsize');
   const [currentCode, setCurrentCode] = useState('');
 
-  useEffect(() => {
-    editorRef.current = CodeMirror.fromTextArea(
-      document.getElementById('code') as HTMLTextAreaElement,
-      {
-        mode: { name: languageModes[selectedLanguage] },
-        theme: 'ayu-dark',
-        autoRefresh: true,
-        autoCloseTags: true,
-        autocorrect: true,
-        autoCloseBrackets: true,
-        lineNumbers: true,
-        lineWrapping: true,
-        tabSize: 4,
-        autofocus: true,
-        matchBrackets: true,
-        lint: true,
-        gutters: ['CodeMirror-lint-markers'],
-        styleActiveLine: true,
-      },
-    );
-    editorRef.current.on('change', (instance, changes) => {
-      const { origin } = changes;
-      const code = instance.getValue();
-      setCurrentCode(code);
-      onCodeChange(code);
-      if (origin !== 'setValue') {
-        socketRef?.emit(ACTIONS.CODE_CHANGE, {
-          editorRoomId,
-          code,
-        });
-      }
+  const handleCodeChange = (value: string) => {
+    setCurrentCode(value);
+    onCodeChange(value);
+    socketRef?.emit(ACTIONS.CODE_CHANGE, {
+      editorRoomId,
+      currentCode,
     });
-    if (fontSize) {
-      editorRef.current.getWrapperElement().style.fontSize = fontSize;
-    }
-    editorRef.current.refresh();
-    return () => {
-      editorRef.current!.toTextArea();
-    };
-  }, [editorRoomId, onCodeChange, socketRef, selectedLanguage, fontSize, setCurrentCode]);
+  };
 
   useEffect(() => {
     if (socketRef) {
       socketRef.on(ACTIONS.CODE_CHANGE, ({ code }) => {
         if (code !== null) {
-          editorRef.current!.setValue(code);
+          setCurrentCode(code);
         }
       });
     }
@@ -102,7 +43,7 @@ const Playground = ({ socketRef, onCodeChange, editorRoomId }: PlaygroundProps) 
   }, [socketRef]);
 
   const handleGenerate = () => {
-    const fileExtension = fileExtensions[selectedLanguage];
+    const fileExtension = languages[selectedLanguage as keyof typeof languages].fileExtension;
     const blob = new Blob([currentCode], { type: 'text/plain' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -113,19 +54,36 @@ const Playground = ({ socketRef, onCodeChange, editorRoomId }: PlaygroundProps) 
     document.body.removeChild(a);
   };
 
-  const handleLanguageSelect = (language: string) => setSelectedLanguage(language as Language);
+  const handleLanguageSelect = (language: string) => setSelectedLanguage(language);
 
   return (
-    <div className="flex flex-col relative bg-[#0f0f0f] h-[calc(100vh-58px)] rounded-lg shadow-xl overflow-hidden mr-2 ml-2 mb-2 z-40">
-      <PreferenceNav
-        socketRef={socketRef}
-        editorRoomId={editorRoomId}
-        onLanguageSelect={handleLanguageSelect}
-      />
-      <div className="w-full h-screen overflow-auto bg-[#282828] shadow-xl">
-        <textarea name="code" id="code" className="w-full h-screen"></textarea>
+    <div className="flex flex-auto flex-col w-full">
+      <div
+        onClick={e => e.preventDefault()}
+        tabIndex={-1}
+        className="rounded-md overflow-hidden mx-2 focus:ring-1 focus-within:ring-[#969696] focus:ring-opacity-50 
+                       active:ring-1 active:ring-[#969696] active:ring-opacity-50">
+        <PreferenceNav
+          onLanguageSelect={handleLanguageSelect}
+          socketRef={socketRef}
+          editorRoomId={editorRoomId}
+        />
+        <div className="w-full overflow-auto dark:bg-[#262626] bg-white select-none h-[calc(100vh-140px)]">
+          <CodeMirror
+            value={currentCode}
+            onChange={handleCodeChange}
+            theme={'dark'}
+            extensions={[languages[selectedLanguage as keyof typeof languages].extension]}
+            style={{ fontSize: fontSize || '13px' }}
+          />
+        </div>
       </div>
-      <EditorFooter handleGenerate={handleGenerate} />
+      <div
+        tabIndex={-1}
+        className="focus:ring-1 focus:ring-[#969696] focus:ring-opacity-50 
+                       active:ring-1 active:ring-[#969696] active:ring-opacity-50 rounded-lg mx-2 mt-2">
+        <EditorFooter handleGenerate={handleGenerate} />
+      </div>
     </div>
   );
 };
