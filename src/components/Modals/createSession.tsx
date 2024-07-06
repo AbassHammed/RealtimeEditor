@@ -8,6 +8,7 @@ import { useDispatch } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
 
 import { useToast } from '../Shared/toast';
+import { ToolTip } from '../Shared/tooltip';
 
 const CreateSession = () => {
   const [inputs, setInputs] = useState({ sessionName: '', sessionId: '' });
@@ -82,10 +83,12 @@ const CreateSession = () => {
 						bg-gray-600 border-gray-500 placeholder-gray-400 text-white"
             placeholder="Session ID"
           />
-          <FaRegClipboard
-            className="absolute right-3 text-white cursor-pointer"
-            onClick={handleGenerateSessionId}
-          />
+          <ToolTip message="Generate Session ID" className="absolute right-3 p-0 m-0" side="top">
+            <FaRegClipboard
+              className="text-white cursor-pointer"
+              onClick={handleGenerateSessionId}
+            />
+          </ToolTip>
         </div>
       </div>
 

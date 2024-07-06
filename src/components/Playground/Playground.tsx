@@ -17,6 +17,7 @@ import { Socket } from 'socket.io-client';
 import { DefaultEventsMap } from '@socket.io/component-emitter';
 import ACTIONS from '@/utils/action';
 import EditorFooter from './Footer';
+import { useReadLocalStorage } from '@/hooks/useReadLocalStorage';
 
 type Language = 'C++' | 'C' | 'JavaScript' | 'Python';
 const languageModes: Record<Language, string> = {
@@ -42,7 +43,7 @@ type PlaygroundProps = {
 const Playground = ({ socketRef, onCodeChange, editorRoomId }: PlaygroundProps) => {
   const editorRef = useRef<EditorFromTextArea | null>(null);
   const [selectedLanguage, setSelectedLanguage] = useState<Language>('C++');
-  const [fontSize, setFontSize] = useState('13px');
+  const fontSize = useReadLocalStorage<string>('lcc-fontsize');
   const [currentCode, setCurrentCode] = useState('');
 
   useEffect(() => {
@@ -77,7 +78,9 @@ const Playground = ({ socketRef, onCodeChange, editorRoomId }: PlaygroundProps) 
         });
       }
     });
-    editorRef.current.getWrapperElement().style.fontSize = fontSize;
+    if (fontSize) {
+      editorRef.current.getWrapperElement().style.fontSize = fontSize;
+    }
     editorRef.current.refresh();
     return () => {
       editorRef.current!.toTextArea();
@@ -111,7 +114,6 @@ const Playground = ({ socketRef, onCodeChange, editorRoomId }: PlaygroundProps) 
   };
 
   const handleLanguageSelect = (language: string) => setSelectedLanguage(language as Language);
-  const handleFontSizeChange = (fontSize: string) => setFontSize(fontSize);
 
   return (
     <div className="flex flex-col relative bg-[#0f0f0f] h-[calc(100vh-58px)] rounded-lg shadow-xl overflow-hidden mr-2 ml-2 mb-2 z-40">
@@ -119,7 +121,6 @@ const Playground = ({ socketRef, onCodeChange, editorRoomId }: PlaygroundProps) 
         socketRef={socketRef}
         editorRoomId={editorRoomId}
         onLanguageSelect={handleLanguageSelect}
-        onFontSizeChange={handleFontSizeChange}
       />
       <div className="w-full h-screen overflow-auto bg-[#282828] shadow-xl">
         <textarea name="code" id="code" className="w-full h-screen"></textarea>

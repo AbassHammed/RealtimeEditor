@@ -1,24 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { AiOutlineFullscreen, AiOutlineFullscreenExit } from 'react-icons/ai';
-import DropDown from '@/components/Buttons/Dropdown';
+import DropDown from './Dropdown';
 import { DefaultEventsMap } from '@socket.io/component-emitter';
 import { Socket } from 'socket.io-client';
-import { Button } from '@nextui-org/react';
-import Settings from '@/components/Modals/Settings';
+import { Maximize2, Minimize2 } from 'lucide-react';
 
 type PreferenceNavProps = {
   socketRef: Socket<DefaultEventsMap, DefaultEventsMap> | null;
   onLanguageSelect: (language: string) => void;
   editorRoomId: string;
-  onFontSizeChange: (fontSize: string) => void;
 };
 
-const PreferenceNav = ({
-  onLanguageSelect,
-  editorRoomId,
-  socketRef,
-  onFontSizeChange,
-}: PreferenceNavProps) => {
+const PreferenceNav = ({ onLanguageSelect, editorRoomId, socketRef }: PreferenceNavProps) => {
   const [isFullScreen, setIsFullScreen] = useState(false);
 
   const handleFullScreenToggle = () => {
@@ -49,7 +41,7 @@ const PreferenceNav = ({
   }, []);
 
   return (
-    <div className="flex items-center justify-between bg-[#303030] h-10 w-full overflow-x-hidden rounded-t-lg shadow-md z-40">
+    <div className="flex items-center justify-between bg-[#333] h-10 w-full rounded-t-md shadow-md z-40">
       <div className="flex items-center text-white">
         <DropDown
           socketRef={socketRef}
@@ -57,18 +49,17 @@ const PreferenceNav = ({
           onLanguageSelect={onLanguageSelect}
         />
       </div>
-      <div className="flex items-center relative justify-end">
-        <Settings onFontSizeChange={onFontSizeChange} />
-
-        <Button
-          isIconOnly
-          onClick={handleFullScreenToggle}
-          color="primary"
-          variant="light"
-          className="w-7 h-7 rounded-sm text-lg"
-          aria-label="FullScreen">
-          {!isFullScreen ? <AiOutlineFullscreen /> : <AiOutlineFullscreenExit />}
-        </Button>
+      <div className="flex items-center relative justify-end mr-2">
+        <button
+          aria-label="FullSreen"
+          className="rounded px-3 py-1.5 font-medium items-center whitespace-nowrap focus:outline-none inline-flex group ml-auto !p-1"
+          onClick={handleFullScreenToggle}>
+          {!isFullScreen ? (
+            <Maximize2 className="h-4 w-4 text-[#737373] group-hover:text-dark-gray-7" />
+          ) : (
+            <Minimize2 className="h-4 w-4 text-[#737373] group-hover:text-dark-gray-7" />
+          )}
+        </button>
       </div>
     </div>
   );
