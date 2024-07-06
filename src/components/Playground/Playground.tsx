@@ -12,9 +12,10 @@ type PlaygroundProps = {
   socketRef: Socket<DefaultEventsMap, DefaultEventsMap> | null;
   onCodeChange: (value: string) => void;
   editorRoomId: string;
+  socketId: string;
 };
 
-const Playground = ({ socketRef, onCodeChange, editorRoomId }: PlaygroundProps) => {
+const Playground = ({ socketRef, onCodeChange, editorRoomId, socketId }: PlaygroundProps) => {
   const [selectedLanguage, setSelectedLanguage] = useState('C++');
   const fontSize = useReadLocalStorage<string>('lcc-fontsize');
   const [currentCode, setCurrentCode] = useState('');
@@ -35,12 +36,13 @@ const Playground = ({ socketRef, onCodeChange, editorRoomId }: PlaygroundProps) 
           setCurrentCode(code);
         }
       });
+      socketRef.emit(ACTIONS.SYNC_LANG, { socketId, language: selectedLanguage });
     }
 
     return () => {
       socketRef?.off(ACTIONS.CODE_CHANGE);
     };
-  }, [socketRef]);
+  }, [socketId, selectedLanguage, socketRef]);
 
   const handleGenerate = () => {
     const fileExtension = languages[selectedLanguage as keyof typeof languages].fileExtension;
@@ -68,7 +70,7 @@ const Playground = ({ socketRef, onCodeChange, editorRoomId }: PlaygroundProps) 
           socketRef={socketRef}
           editorRoomId={editorRoomId}
         />
-        <div className="w-full overflow-auto dark:bg-[#262626] bg-white select-none h-[calc(100vh-140px)]">
+        <div className="w-full overflow-auto bg-[#262626]  select-none h-[calc(100vh-140px)]">
           <CodeMirror
             value={currentCode}
             onChange={handleCodeChange}

@@ -20,6 +20,7 @@ const Editor: React.FC = () => {
   const socketRef = useRef<null | Socket<DefaultEventsMap, DefaultEventsMap>>(null);
   const codeRef = useRef<string | null>(null);
   const { editorRoomId, collaboratorName } = useSelector((state: RootState) => state.editor);
+  const [socId, setSocId] = useState<string>('');
   const router = useRouter();
   const editorName = collaboratorName;
   const { toast } = useToast();
@@ -45,6 +46,7 @@ const Editor: React.FC = () => {
           toast({ variant: 'default', description: `${collaboratorName} has joined the session` });
         }
         setClients(clients);
+        setSocId(socketId);
         socketRef.current?.emit(ACTIONS.SYNC_CODE, {
           code: codeRef.current,
           socketId,
@@ -75,6 +77,7 @@ const Editor: React.FC = () => {
         <Playground
           editorRoomId={editorRoomId}
           socketRef={socketRef.current}
+          socketId={socId}
           onCodeChange={code => {
             codeRef.current = code;
           }}

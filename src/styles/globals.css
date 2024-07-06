@@ -59,3 +59,14 @@ body {
 .CodeMirror {
   height: 95% !important;
 }
+
+.cm-scroller,
+/* .cm-activeLine,
+.cm-activeLineGutter, */
+.cm-gutters {
+  background-color: #282828 !important;
+}
+
+.cm-focused {
+  outline: none !important;
+}
