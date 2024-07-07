@@ -61,7 +61,6 @@ const Playground = ({ socketRef, onCodeChange, editorRoomId, socketId }: Playgro
   return (
     <div className="flex flex-auto flex-col w-full">
       <div
-        onClick={e => e.preventDefault()}
         tabIndex={-1}
         className="rounded-md overflow-hidden mx-2 focus:ring-1 focus-within:ring-[#969696] focus:ring-opacity-50 
                        active:ring-1 active:ring-[#969696] active:ring-opacity-50">
@@ -70,7 +69,7 @@ const Playground = ({ socketRef, onCodeChange, editorRoomId, socketId }: Playgro
           socketRef={socketRef}
           editorRoomId={editorRoomId}
         />
-        <div className="w-full overflow-auto bg-[#262626]  select-none h-[calc(100vh-140px)]">
+        <div className="w-full overflow-auto bg-[#262626] h-[calc(100vh-140px)]">
           <CodeMirror
             value={currentCode}
             onChange={handleCodeChange}
