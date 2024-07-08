@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import Collaborator from './Collaborative';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Tooltip, Button } from '@nextui-org/react';
+import { Button } from '@/components';
 import { FiLogOut } from 'react-icons/fi';
 import AvatarDiv from './AvatarDiv';
 
@@ -42,11 +42,9 @@ const Topbar = ({ clients }: TopbarProps) => {
           isDropdownOpen={isDropdownOpen}
           setIsDropdownOpen={setIsDropdownOpen}
         />
-        <Tooltip content="Logout" color="danger">
-          <Button size="sm" color="danger" isIconOnly onClick={onLeave}>
-            <FiLogOut />
-          </Button>
-        </Tooltip>
+        <Button size="icon" variant={'destructive'} onClick={onLeave}>
+          <FiLogOut />
+        </Button>
       </div>
     </nav>
   );

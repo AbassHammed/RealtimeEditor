@@ -15,7 +15,7 @@ const fonts = [
 ] as const;
 
 const FontDrop = () => {
-  const [value, setValue] = useLocalStorage('lcc-fontsize', '15px');
+  const [value, setValue] = useLocalStorage('lcc-fontsize', '13px');
 
   return (
     <Popover>

@@ -7,3 +7,4 @@ export { default as EditorFooter } from './Playground/Footer';
 export { default as Topbar } from './Topbar';
 export { Popover, PopoverTrigger, PopoverContent } from './Shared/popover';
 export { useToast, toast } from './Shared/toast';
+export { Button, buttonVariants } from './Shared/button';
