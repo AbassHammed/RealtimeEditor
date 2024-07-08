@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 
-import { authModalState } from '@/atoms/authModalAtom';
+import { authModalState } from '@/atoms';
 import { IoClose } from 'react-icons/io5';
 import { useSetRecoilState } from 'recoil';
 

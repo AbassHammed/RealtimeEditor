@@ -3,6 +3,7 @@ import DropDown from './Dropdown';
 import { DefaultEventsMap } from '@socket.io/component-emitter';
 import { Socket } from 'socket.io-client';
 import { Maximize2, Minimize2 } from 'lucide-react';
+import FontDrop from '@/components/Shared/fontDrop';
 
 type PreferenceNavProps = {
   socketRef: Socket<DefaultEventsMap, DefaultEventsMap> | null;
@@ -50,6 +51,7 @@ const PreferenceNav = ({ onLanguageSelect, editorRoomId, socketRef }: Preference
         />
       </div>
       <div className="flex items-center relative justify-end mr-2">
+        <FontDrop />
         <button
           aria-label="FullSreen"
           className="rounded px-3 py-1.5 font-medium items-center whitespace-nowrap focus:outline-none inline-flex group ml-auto !p-1"

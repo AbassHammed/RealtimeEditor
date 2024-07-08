@@ -1,7 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
 import { useSetRecoilState } from 'recoil';
-import { authModalState } from '@/atoms/authModalAtom';
+import { authModalState } from '@/atoms';
 
 const Navbar: React.FC = () => {
   const setAuthModalState = useSetRecoilState(authModalState);
