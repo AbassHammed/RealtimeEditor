@@ -41,6 +41,11 @@ const CreateSession = () => {
       return toast({ variant: 'warn', description: 'Please fill all fields' });
     }
 
+    if (inputs.sessionId.length < 16) {
+      setIsLoading(false);
+      return toast({ variant: 'warn', description: 'Session ID must be at least 16 characters' });
+    }
+
     dispatch(setCollaboratorName(inputs.sessionName));
     dispatch(setEditorRoomId(inputs.sessionId));
     setIsLoading(false);
@@ -74,7 +79,7 @@ const CreateSession = () => {
         <div className="relative flex items-center">
           <input
             value={inputs.sessionId}
-            onChange={e => setInputs(prevInputs => ({ ...prevInputs, sessionId: e.target.value }))}
+            onChange={handleInputChange}
             type="text"
             name="sessionId"
             id="sessionId"

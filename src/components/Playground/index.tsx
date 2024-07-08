@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import PreferenceNav from './PreferenceNav/PreferenceNav';
+import PreferenceNav from './PreferenceNav';
 import { Socket } from 'socket.io-client';
 import { DefaultEventsMap } from '@socket.io/component-emitter';
 import ACTIONS from '@/utils/action';

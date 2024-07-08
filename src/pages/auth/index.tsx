@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
-import { authModalState } from '@/atoms/authModalAtom';
-import Navbar from '@/components/Navbar/Navbar';
+import { authModalState } from '@/atoms';
+import { Navbar } from '@/components';
 import AuthModal from '@/components/Modals/AuthModal';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import Image from 'next/image';

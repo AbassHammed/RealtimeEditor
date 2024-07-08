@@ -9,10 +9,7 @@ import { GoPeople } from 'react-icons/go';
 import { IoOptionsOutline } from 'react-icons/io5';
 import CopyDocumentIcon from '@/components/Icons/CopyDocumentIcon';
 import { useToast } from '../Shared/toast';
-type TClients = {
-  socketId: string;
-  collaboratorName: string;
-};
+import { TClients } from '@/types';
 
 type CollaboratorProps = {
   clients?: TClients[];

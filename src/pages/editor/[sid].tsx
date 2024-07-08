@@ -6,14 +6,10 @@ import { useSelector } from 'react-redux';
 import ACTIONS from '@/utils/action';
 import { RootState } from '@/redux/store';
 import socketInit from '@/utils/socket';
-import Topbar from '@/components/Topbar/Topbar';
-import Playground from '@/components/Playground/Playground';
+import Topbar from '@/components/Topbar';
+import Playground from '@/components/Playground';
 import { useToast } from '@/components/Shared/toast';
-
-type TClients = {
-  socketId: string;
-  collaboratorName: string;
-};
+import { TClients } from '@/types';
 
 const Editor: React.FC = () => {
   const [clients, setClients] = useState<TClients[]>([]);
@@ -27,17 +23,14 @@ const Editor: React.FC = () => {
 
   useEffect(() => {
     (async () => {
-      /* eslint-disable */
-      const handleSocketError = (error: Error) => {
-        /* eslint-enable */
+      const handleSocketError = () => {
         toast({ variant: 'destructive', description: 'Unable to join room, try again' });
         router.push('/auth');
       };
 
       socketRef.current = socketInit();
 
-      socketRef.current.on('connect_error', err => handleSocketError(err));
-      socketRef.current.on('connect_failed', err => handleSocketError(err));
+      socketRef.current.on('connect_error', () => handleSocketError());
 
       socketRef.current.emit(ACTIONS.JOIN, { editorRoomId, collaboratorName });
 
