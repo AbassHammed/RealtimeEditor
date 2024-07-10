@@ -16,8 +16,13 @@ const Navbar: React.FC = () => {
       </div>
       <button
         onClick={handleClick}
-        className="absolute top-4 right-4 bg-gradient-to-tr from-[#610c9f] to-pink-500  text-white py-2.5 px-5 border-none rounded-md text-lg font-medium cursor-pointer shadow-lg">
-        Over here 🖐️
+        className="px-4 py-2 rounded-md text-white text-center absolute top-4 right-4 overflow-hidden group/modal-btn flex justify-center bg-[#610c9f]">
+        <span className="group-hover/modal-btn:translate-x-40 text-center transition duration-500">
+          Create
+        </span>
+        <span className="-translate-x-40 group-hover/modal-btn:translate-x-0 flex items-center justify-center absolute inset-0 transition duration-500 z-20">
+          Join
+        </span>
       </button>
     </div>
   );

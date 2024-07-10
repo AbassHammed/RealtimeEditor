@@ -1,4 +1,3 @@
-import Avatar from 'react-avatar';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 import { useState } from 'react';
@@ -15,6 +14,7 @@ import {
 } from '@/components';
 import { Check, Copy, List, Share2, Users } from 'lucide-react';
 import { TabsContent } from '@radix-ui/react-tabs';
+import { ProfilePicture } from '../Shared/ImageTooltip';
 
 interface CollaboratorProps {
   clients?: TClients[];
@@ -31,7 +31,7 @@ const Collaborator = ({ clients }: CollaboratorProps) => {
     setCopy(true);
     navigator.clipboard.writeText(editorRoomId).then(() => {
       toast({
-        variant: 'warn',
+        variant: 'default',
         description: 'Room Id copied successfully',
       });
       setTimeout(() => {
@@ -43,7 +43,7 @@ const Collaborator = ({ clients }: CollaboratorProps) => {
   return (
     <Popover>
       <PopoverTrigger>
-        <Button className="bg-green-600">
+        <Button className="bg-green-600 m-0 p-1 h-8 w-20 text-sm">
           <List className="mr-2 h-4 w-4" /> Options
         </Button>
       </PopoverTrigger>
@@ -77,13 +77,7 @@ const Collaborator = ({ clients }: CollaboratorProps) => {
                 <div
                   className="flex items-center justify-start gap-3 py-2 text-white"
                   key={client.socketId}>
-                  <Avatar
-                    name={client.collaboratorName}
-                    size="36"
-                    round="4px"
-                    maxInitials={2}
-                    textSizeRatio={2}
-                  />
+                  <ProfilePicture name={client.collaboratorName} notRounded />
                   <p>
                     {client.collaboratorName.split(' ')[0]}
                     <span className="text-xs font-semibold text-zinc-400">

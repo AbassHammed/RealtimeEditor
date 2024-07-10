@@ -13,3 +13,15 @@ export function generateRandomHexColor() {
   }
   return color;
 }
+
+export function getInitials(name: string) {
+  const nameParts = name.split(' ');
+  if (nameParts.length === 1) {
+    return nameParts[0][0].toUpperCase();
+  } else {
+    return nameParts
+      .slice(0, 2)
+      .map(part => part[0].toUpperCase())
+      .join('');
+  }
+}
