@@ -25,7 +25,9 @@ const FontDrop = () => {
           <ChevronDownIcon className="h-5 w-5" />
         </div>
       </PopoverTrigger>
-      <PopoverContent className="w-28 flex flex-row p-1 m-1 bg-[#323232]" align="start">
+      <PopoverContent
+        className="w-28 flex flex-row p-1 m-1 bg-[#323232] ring-1 ring-[#969696] ring-opacity-50"
+        align="start">
         <div className="flex flex-col">
           {fonts.map(font => (
             <div

@@ -317,3 +317,13 @@ body {
     opacity: 0.65;
   }
 }
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-background;
+  }
+}

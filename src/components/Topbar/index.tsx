@@ -2,11 +2,11 @@ import Collaborator from './Collaborative';
 import Link from 'next/link';
 import Image from 'next/image';
 import { buttonVariants } from '@/components';
-import AvatarDiv from './AvatarDiv';
 import { TClients } from '@/types';
 import { cn } from '@/lib/utils';
 import { LogOut } from 'lucide-react';
 import Logo from '../../../public/Icon.png';
+import { ImageTooltip } from '../Shared/ImageTooltip';
 
 interface TopbarProps {
   clients?: TClients[];
@@ -20,8 +20,8 @@ const Topbar = ({ clients }: TopbarProps) => (
       </Link>
     </div>
 
-    <div className="flex flex-grow items-center justify-center">
-      <AvatarDiv clients={clients} />
+    <div className="flex flex-row items-center justify-center w-full">
+      {clients && <ImageTooltip items={clients} />}
     </div>
 
     <div className="flex flex-grow items-center justify-end space-x-4">
