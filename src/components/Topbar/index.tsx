@@ -1,52 +1,37 @@
-import { useState } from 'react';
-import { useRouter } from 'next/router';
 import Collaborator from './Collaborative';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Button } from '@/components';
-import { FiLogOut } from 'react-icons/fi';
+import { buttonVariants } from '@/components';
 import AvatarDiv from './AvatarDiv';
+import { TClients } from '@/types';
+import { cn } from '@/lib/utils';
+import { LogOut } from 'lucide-react';
+import Logo from '../../../public/Icon.png';
 
-type TClients = {
-  socketId: string;
-  collaboratorName: string;
-};
-
-type TopbarProps = {
+interface TopbarProps {
   clients?: TClients[];
-};
+}
 
-const Topbar = ({ clients }: TopbarProps) => {
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const router = useRouter();
+const Topbar = ({ clients }: TopbarProps) => (
+  <nav className="flex h-[50px] w-full items-center bg-[#0f0f0f] px-5">
+    <div className="flex flex-grow items-center justify-start">
+      <Link href="/">
+        <Image src={Logo} alt="Logo image" height={50} width={50} />
+      </Link>
+    </div>
 
-  const onLeave = async () => {
-    router.push(`/auth`);
-  };
+    <div className="flex flex-grow items-center justify-center">
+      <AvatarDiv clients={clients} />
+    </div>
 
-  return (
-    <nav className="flex h-[50px] w-full items-center bg-[#0f0f0f] px-5">
-      <div className="flex flex-grow items-center justify-start">
-        <Link href="/">
-          <Image src="/Icon.png" alt="Logo" height={50} width={50} />
-        </Link>
-      </div>
-
-      <div className="flex flex-grow items-center justify-center">
-        <AvatarDiv clients={clients} />
-      </div>
-
-      <div className="flex flex-grow items-center justify-end space-x-4">
-        <Collaborator
-          clients={clients}
-          isDropdownOpen={isDropdownOpen}
-          setIsDropdownOpen={setIsDropdownOpen}
-        />
-        <Button size="icon" variant={'destructive'} onClick={onLeave}>
-          <FiLogOut />
-        </Button>
-      </div>
-    </nav>
-  );
-};
+    <div className="flex flex-grow items-center justify-end space-x-4">
+      <Collaborator clients={clients} />
+      <Link
+        href="/auth"
+        className={cn(buttonVariants({ variant: 'destructive' }), 'flex h-8 w-9 m-0 p-0')}>
+        <LogOut className="h-4 w-4 text-white" />
+      </Link>
+    </div>
+  </nav>
+);
 export default Topbar;

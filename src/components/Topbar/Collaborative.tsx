@@ -1,26 +1,28 @@
 import Avatar from 'react-avatar';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
-import { IoIosShareAlt } from 'react-icons/io';
 import { useState } from 'react';
-import { Button, Card, CardBody, Divider, Tab, Tabs } from '@nextui-org/react';
-import { GiCheckMark } from 'react-icons/gi';
-import { GoPeople } from 'react-icons/go';
-import { IoOptionsOutline } from 'react-icons/io5';
-import CopyDocumentIcon from '@/components/Icons/CopyDocumentIcon';
 import { useToast } from '../Shared/toast';
 import { TClients } from '@/types';
+import {
+  Button,
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+  Tabs,
+  TabsList,
+  TabsTrigger,
+} from '@/components';
+import { Check, Copy, List, Share2, Users } from 'lucide-react';
+import { TabsContent } from '@radix-ui/react-tabs';
 
-type CollaboratorProps = {
+interface CollaboratorProps {
   clients?: TClients[];
-  isDropdownOpen: boolean;
-  setIsDropdownOpen: (prev: (prev: boolean) => boolean) => void;
-};
+}
 
-const Collaborator = ({ clients, isDropdownOpen, setIsDropdownOpen }: CollaboratorProps) => {
+const Collaborator = ({ clients }: CollaboratorProps) => {
   const { editorRoomId, collaboratorName } = useSelector((state: RootState) => state.editor);
   const [copy, setCopy] = useState(false);
-  const [selected, setSelected] = useState('share');
   const { toast } = useToast();
 
   const editorName = collaboratorName;
@@ -39,81 +41,59 @@ const Collaborator = ({ clients, isDropdownOpen, setIsDropdownOpen }: Collaborat
   };
 
   return (
-    <div className="relative">
-      <Button
-        onClick={() => setIsDropdownOpen((prev: boolean) => !prev)}
-        color="success"
-        size="sm"
-        className="p-2 m-0"
-        startContent={<IoOptionsOutline />}>
-        {' '}
-        Options{' '}
-      </Button>
-
-      {isDropdownOpen && (
-        <Card className="absolute z-50 w-80 top-12 right-0 bg-[#0f0f0f] p-4 border-2 rounded-xl">
-          <CardBody className="overflow-hidden p-0">
-            <Tabs
-              fullWidth
-              size="md"
-              aria-label="Tabs form"
-              selectedKey={selected}
-              onSelectionChange={keys => setSelected(keys as string)}
-              variant="bordered"
-              color="success">
-              <Tab
-                key="share"
-                title={
-                  <div className="flex items-center space-x-2">
-                    <IoIosShareAlt />
-                    <span>Share</span>
-                  </div>
-                }>
-                <Button
-                  color={copy ? 'success' : 'primary'}
-                  className="w-full"
-                  startContent={copy ? <GiCheckMark /> : <CopyDocumentIcon />}
-                  onClick={handleCopyRoomId}>
-                  {copy ? 'Copied' : 'Copy Invite Code'}
-                </Button>
-                <Divider className="my-4 bg-white" />
-              </Tab>
-              <Tab
-                key="people"
-                title={
-                  <div className="flex items-center space-x-2">
-                    <GoPeople />
-                    <span>Connected</span>
-                  </div>
-                }>
-                <div className="max-h-48 mt-3 overflow-y-auto">
-                  {clients &&
-                    clients.map(client => (
-                      <div
-                        className="flex items-center gap-3 py-2 text-white"
-                        key={client.socketId}>
-                        <Avatar
-                          name={client.collaboratorName}
-                          size="36"
-                          round="4px"
-                          maxInitials={1}
-                          textSizeRatio={2}
-                        />
-                        <p>
-                          {client.collaboratorName}
-                          <span className="text-xs font-semibold text-zinc-400">
-                            {editorName === client.collaboratorName && ' (😛)'}
-                          </span>
-                        </p>
-                      </div>
-                    ))}
+    <Popover>
+      <PopoverTrigger>
+        <Button className="bg-green-600">
+          <List className="mr-2 h-4 w-4" /> Options
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent className="w-64 bg-[#323232]">
+        <Tabs defaultValue="share">
+          <TabsList className="grid w-full grid-cols-2 bg-[#262626] items-center justify-center p-0 px-2 m-0 h-12">
+            <TabsTrigger value="share">
+              <div className="flex items-center space-x-2">
+                <Share2 />
+                <span>Share</span>
+              </div>
+            </TabsTrigger>
+            <TabsTrigger value="people" className="flex items-center space-x-2">
+              <Users />
+              <span>People</span>
+            </TabsTrigger>
+          </TabsList>
+          <TabsContent value="share" className="flex w-full items-center space-x-2 py-2">
+            <Button
+              className={`w-full ${copy ? 'cursor-not-allowed bg-green-500' : 'cursor-pointer bg-white'}`}
+              onClick={handleCopyRoomId}>
+              {copy ? <Check className="mr-2 h-4 w-4" /> : <Copy className="mr-2 h-4 w-4" />}
+              {copy ? 'Copied!' : 'Copy Room Id'}
+            </Button>
+          </TabsContent>
+          <TabsContent
+            value="people"
+            className="flex w-full items-center space-x-2 max-h-48 overflow-y-auto">
+            {clients &&
+              clients.map(client => (
+                <div className="flex items-center gap-3 py-2 text-white" key={client.socketId}>
+                  <Avatar
+                    name={client.collaboratorName.split(' ')[0]}
+                    size="36"
+                    round="4px"
+                    maxInitials={2}
+                    textSizeRatio={2}
+                  />
+                  <p>
+                    {client.collaboratorName}
+                    <span className="text-xs font-semibold text-zinc-400">
+                      {editorName === client.collaboratorName && ' (you)'}
+                    </span>
+                  </p>
                 </div>
-              </Tab>
-            </Tabs>
-          </CardBody>
-        </Card>
-      )}
-    </div>
+              ))}
+          </TabsContent>
+        </Tabs>
+      </PopoverContent>
+    </Popover>
   );
 };
 
