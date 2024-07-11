@@ -3,6 +3,7 @@ import React, { useCallback, useState } from 'react';
 import { useRouter } from 'next/router';
 
 import { useToast } from '@/components';
+import { useSession } from '@/hooks';
 import { setCollaboratorName, setEditorRoomId } from '@/redux/editorSlice';
 import { Clipboard } from 'lucide-react';
 import { useDispatch } from 'react-redux';
@@ -13,6 +14,7 @@ const CreateSession = () => {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const { toast } = useToast();
+  const { setSessionData } = useSession();
 
   const dispatch = useDispatch();
 
@@ -47,6 +49,8 @@ const CreateSession = () => {
 
     dispatch(setCollaboratorName(inputs.sessionName));
     dispatch(setEditorRoomId(inputs.sessionId));
+
+    setSessionData({ userName: inputs.sessionName, roomId: inputs.sessionId });
     setIsLoading(false);
     router.push(`editor/${inputs.sessionId}`);
   };

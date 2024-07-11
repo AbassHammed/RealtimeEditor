@@ -5,7 +5,7 @@ interface SessionProviderProps {
 }
 
 export interface SessionData {
-  collaboratorName?: string;
+  userName?: string;
   roomId?: string;
 }
 
