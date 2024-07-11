@@ -7,6 +7,7 @@ import EditorFooter from './Footer';
 import { useReadLocalStorage } from '@/hooks/useReadLocalStorage';
 import CodeMirror from '@uiw/react-codemirror';
 import { languages } from '@/lib/lang';
+import { useKeyboardShortcuts } from '@/hooks';
 
 type PlaygroundProps = {
   socketRef: Socket<DefaultEventsMap, DefaultEventsMap> | null;
@@ -57,6 +58,13 @@ const Playground = ({ socketRef, onCodeChange, editorRoomId, socketId }: Playgro
   };
 
   const handleLanguageSelect = (language: string) => setSelectedLanguage(language);
+
+  useKeyboardShortcuts([
+    {
+      keyCombo: 'ctrl+s',
+      callback: () => handleGenerate(),
+    },
+  ]);
 
   return (
     <div className="flex flex-auto flex-col w-full">
