@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 
 import { Popover, PopoverContent, PopoverTrigger } from '@/components';
-import { Socket } from 'socket.io-client';
-import { DefaultEventsMap } from '@socket.io/component-emitter';
 import ACTIONS from '@/utils/action';
+import { DefaultEventsMap } from '@socket.io/component-emitter';
 import { Check, ChevronDown } from 'lucide-react';
+import { Socket } from 'socket.io-client';
 
 interface LanguageOption {
   id: string;

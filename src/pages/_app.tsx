@@ -4,9 +4,9 @@ import type { AppProps } from 'next/app';
 import Head from 'next/head';
 
 import { store } from '@/redux/store';
+import { ThemeProvider } from '@/ThemeProvider';
 import { Provider } from 'react-redux';
 import { RecoilRoot } from 'recoil';
-import { ThemeProvider } from '@/ThemeProvider';
 
 export default function App({ Component, pageProps }: AppProps) {
   return (

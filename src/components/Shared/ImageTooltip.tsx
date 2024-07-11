@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { TClients } from '@/types';
+
 import { generateRandomHexColor, getInitials } from '@/lib/utils';
 import { RootState } from '@/redux/store';
+import { TClients } from '@/types';
 import { useSelector } from 'react-redux';
+
 import { ToolTip } from './tooltip';
 
 export const ProfilePicture = ({

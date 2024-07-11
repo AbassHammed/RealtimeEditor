@@ -1,6 +1,8 @@
 import React from 'react';
-import { Navbar } from '@/components';
+
 import Image from 'next/image';
+
+import { Navbar } from '@/components';
 
 const AuthPage: React.FC = () => (
   <div className="bg-[#1A1A1A] h-screen relative">

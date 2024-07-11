@@ -2,12 +2,11 @@ import React, { useCallback, useState } from 'react';
 
 import { useRouter } from 'next/router';
 
+import { useToast } from '@/components';
 import { setCollaboratorName, setEditorRoomId } from '@/redux/editorSlice';
 import { Clipboard } from 'lucide-react';
 import { useDispatch } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
-
-import { useToast } from '@/components';
 
 const CreateSession = () => {
   const [inputs, setInputs] = useState({ sessionName: '', sessionId: '' });

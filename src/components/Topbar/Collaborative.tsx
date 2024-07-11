@@ -1,20 +1,22 @@
-import { useSelector } from 'react-redux';
-import { RootState } from '@/redux/store';
 import { useState } from 'react';
-import { useToast } from '../Shared/toast';
-import { TClients } from '@/types';
+
 import {
   Button,
   Popover,
   PopoverContent,
   PopoverTrigger,
   Tabs,
-  TabsList,
   TabsContent,
+  TabsList,
   TabsTrigger,
 } from '@/components';
+import { RootState } from '@/redux/store';
+import { TClients } from '@/types';
 import { Check, Copy, List, Share2, Users } from 'lucide-react';
+import { useSelector } from 'react-redux';
+
 import { ProfilePicture } from '../Shared/ImageTooltip';
+import { useToast } from '../Shared/toast';
 
 interface CollaboratorProps {
   clients?: TClients[];

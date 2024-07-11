@@ -1,9 +1,10 @@
 /* eslint-disable no-use-before-define */
+import React, { createContext, ReactNode, useContext, useEffect, useRef, useState } from 'react';
+
 import { useOnClickOutside } from '@/hooks';
 import { cn } from '@/lib/utils';
 import { AnimatePresence, motion } from 'framer-motion';
 import { X } from 'lucide-react';
-import React, { ReactNode, createContext, useContext, useEffect, useRef, useState } from 'react';
 
 interface ModalContextType {
   open: boolean;

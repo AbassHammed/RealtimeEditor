@@ -1,13 +1,15 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Socket } from 'socket.io-client';
+
 import { useRouter } from 'next/router';
+
+import { Playground, Topbar, useToast } from '@/components';
+import { RootState } from '@/redux/store';
+import { TClients } from '@/types';
+import ACTIONS from '@/utils/action';
+import socketInit from '@/utils/socket';
 import { DefaultEventsMap } from '@socket.io/component-emitter';
 import { useSelector } from 'react-redux';
-import ACTIONS from '@/utils/action';
-import { RootState } from '@/redux/store';
-import socketInit from '@/utils/socket';
-import { TClients } from '@/types';
-import { Playground, Topbar, useToast } from '@/components';
+import { Socket } from 'socket.io-client';
 
 const Editor: React.FC = () => {
   const [clients, setClients] = useState<TClients[]>([]);

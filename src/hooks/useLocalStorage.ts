@@ -1,5 +1,5 @@
 /* eslint-disable indent */
-import { useCallback, useEffect, useState, Dispatch, SetStateAction } from 'react';
+import { Dispatch, SetStateAction, useCallback, useEffect, useState } from 'react';
 
 import { useEventCallback, useEventListener } from './useEventListener';
 

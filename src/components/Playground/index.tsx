@@ -1,12 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import PreferenceNav from './PreferenceNav';
-import { Socket } from 'socket.io-client';
-import { DefaultEventsMap } from '@socket.io/component-emitter';
-import ACTIONS from '@/utils/action';
-import EditorFooter from './Footer';
-import { useReadLocalStorage, useKeyboardShortcuts } from '@/hooks';
-import CodeMirror from '@uiw/react-codemirror';
+import React, { useEffect, useState } from 'react';
+
+import { useKeyboardShortcuts, useReadLocalStorage } from '@/hooks';
 import { languages } from '@/lib/lang';
+import ACTIONS from '@/utils/action';
+import { DefaultEventsMap } from '@socket.io/component-emitter';
+import CodeMirror from '@uiw/react-codemirror';
+import { Socket } from 'socket.io-client';
+
+import EditorFooter from './Footer';
+import PreferenceNav from './PreferenceNav';
 
 interface PlaygroundProps {
   socketRef: Socket<DefaultEventsMap, DefaultEventsMap> | null;

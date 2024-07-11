@@ -1,12 +1,14 @@
-import Collaborator from './Collaborative';
-import Link from 'next/link';
 import Image from 'next/image';
+import Link from 'next/link';
+
 import { buttonVariants } from '@/components';
-import { TClients } from '@/types';
 import { cn } from '@/lib/utils';
+import { TClients } from '@/types';
 import { LogOut } from 'lucide-react';
+
 import Logo from '../../../public/Icon.png';
 import { ImageTooltip } from '../Shared/ImageTooltip';
+import Collaborator from './Collaborative';
 
 interface TopbarProps {
   clients?: TClients[];

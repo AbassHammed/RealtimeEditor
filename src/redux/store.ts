@@ -1,4 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
+
 import editorSlice from './editorSlice';
 
 export const store = configureStore({

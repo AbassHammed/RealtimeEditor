@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import DropDown from './Dropdown';
-import { DefaultEventsMap } from '@socket.io/component-emitter';
-import { Socket } from 'socket.io-client';
-import { Maximize2, Minimize2 } from 'lucide-react';
+import React, { useEffect, useState } from 'react';
+
 import { FontDrop } from '@/components';
+import { DefaultEventsMap } from '@socket.io/component-emitter';
+import { Maximize2, Minimize2 } from 'lucide-react';
+import { Socket } from 'socket.io-client';
+
+import DropDown from './Dropdown';
 
 type PreferenceNavProps = {
   socketRef: Socket<DefaultEventsMap, DefaultEventsMap> | null;

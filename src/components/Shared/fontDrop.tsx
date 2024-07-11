@@ -1,8 +1,8 @@
 import React from 'react';
 
 import { Popover, PopoverContent, PopoverTrigger } from '@/components';
-import { Check, ChevronDown } from 'lucide-react';
 import { useLocalStorage } from '@/hooks';
+import { Check, ChevronDown } from 'lucide-react';
 
 const fonts = [
   { id: '1', name: '13px' },

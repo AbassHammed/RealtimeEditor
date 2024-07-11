@@ -1,7 +1,9 @@
 import React from 'react';
+
 import Image from 'next/image';
-import { Modal, ModalBody, ModalContent, ModalTrigger } from '../Modals/modal';
+
 import CreateSession from '../Modals/createSession';
+import { Modal, ModalBody, ModalContent, ModalTrigger } from '../Modals/modal';
 
 const Navbar: React.FC = () => (
   <div className="flex flex-col items-center justify-center h-20 bg-[#1a1a1a] text-white relative">
