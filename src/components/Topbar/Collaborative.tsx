@@ -45,9 +45,11 @@ const Collaborator = ({ clients }: CollaboratorProps) => {
   return (
     <Popover>
       <PopoverTrigger>
-        <Button className="bg-green-600 m-0 p-1 h-8 w-20 text-sm">
+        <div
+          role="button"
+          className="bg-green-600 m-0 p-1 h-8 w-20 text-sm inline-flex items-center justify-center whitespace-nowrap rounded-md text-white font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50">
           <List className="mr-2 h-4 w-4" /> Options
-        </Button>
+        </div>
       </PopoverTrigger>
       <PopoverContent className="w-64 bg-[#323232] ring-1 ring-[#969696] ring-opacity-50">
         <Tabs defaultValue="share">
@@ -75,7 +77,7 @@ const Collaborator = ({ clients }: CollaboratorProps) => {
           </TabsContent>
           <TabsContent value="people" className="mr-2">
             {clients &&
-              clients.map(client => (
+              clients.slice(0, 10).map(client => (
                 <div
                   className="flex items-center justify-start gap-3 py-2 text-white"
                   key={client.socketId}>

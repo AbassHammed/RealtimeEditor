@@ -9,7 +9,7 @@ const AuthPage: React.FC = () => (
     <div className="mx-auto">
       <Navbar />
       <div className="flex items-center justify-center h-[calc(100vh-5rem)] pointer-events-none select-none">
-        <Image src="/hero.svg" alt="Hero image" width={700} height={700} />
+        <Image src="/hero.svg" alt="Hero image" width={700} height={700} priority />
       </div>
     </div>
   </div>
