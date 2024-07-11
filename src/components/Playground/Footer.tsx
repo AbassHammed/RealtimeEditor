@@ -1,9 +1,9 @@
 import React from 'react';
-import { IoCloudDownloadSharp } from 'react-icons/io5';
+import { CloudDownload } from 'lucide-react';
 
-type EditorFooterProps = {
+interface EditorFooterProps {
   handleGenerate: () => void;
-};
+}
 
 const EditorFooter: React.FC<EditorFooterProps> = ({ handleGenerate }) => (
   <div className="flex bg-[#303030] bottom-0 z-10 rounded-lg w-full h-[36px]">
@@ -12,7 +12,7 @@ const EditorFooter: React.FC<EditorFooterProps> = ({ handleGenerate }) => (
         <button
           className="flex py-1 px-2 m-0 font-medium items-center bg-transparent text-sm text-white rounded-[5px] box-border hover:bg-[#404040]"
           onClick={handleGenerate}>
-          <IoCloudDownloadSharp className="mr-2 text-dark-green-s" />
+          <CloudDownload className="mr-2 text-dark-green-s" />
           Export file
         </button>
       </div>

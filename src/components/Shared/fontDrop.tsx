@@ -1,9 +1,8 @@
 import React from 'react';
 
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/Shared/popover';
-import { ChevronDownIcon } from '@heroicons/react/20/solid';
-import { BsCheckLg } from 'react-icons/bs';
-import { useLocalStorage } from '@/hooks/useLocalStorage';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components';
+import { Check, ChevronDown } from 'lucide-react';
+import { useLocalStorage } from '@/hooks';
 
 const fonts = [
   { id: '1', name: '13px' },
@@ -22,7 +21,7 @@ const FontDrop = () => {
       <PopoverTrigger>
         <div className="flex whitespace-nowrap !flex-row justify-center items-center m-1 rounded-md p-1 cursor-pointer hover:bg-gray-8  text-[#a8a8a8] text-sm font-normal">
           {value}
-          <ChevronDownIcon className="h-5 w-5" />
+          <ChevronDown className="h-5 w-5" />
         </div>
       </PopoverTrigger>
       <PopoverContent
@@ -38,7 +37,7 @@ const FontDrop = () => {
                 className={`flex items-center mr-2 ${
                   value === font.name ? 'visible' : 'invisible'
                 }`}>
-                <BsCheckLg />
+                <Check />
               </span>
               <div className="text-left text-[14px]">{font.name}</div>
             </div>

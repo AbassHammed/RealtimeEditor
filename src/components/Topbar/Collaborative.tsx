@@ -10,10 +10,10 @@ import {
   PopoverTrigger,
   Tabs,
   TabsList,
+  TabsContent,
   TabsTrigger,
 } from '@/components';
 import { Check, Copy, List, Share2, Users } from 'lucide-react';
-import { TabsContent } from '@radix-ui/react-tabs';
 import { ProfilePicture } from '../Shared/ImageTooltip';
 
 interface CollaboratorProps {

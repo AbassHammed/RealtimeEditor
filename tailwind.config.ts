@@ -1,4 +1,3 @@
-import { nextui } from '@nextui-org/react';
 import type { Config } from 'tailwindcss';
 
 const config = {
@@ -8,7 +7,6 @@ const config = {
     './components/**/*.{ts,tsx}',
     './app/**/*.{ts,tsx}',
     './src/**/*.{ts,tsx}',
-    './node_modules/@nextui-org/react/**/*.{js,jsx,ts,tsx}',
   ],
   theme: {
     container: {
@@ -212,7 +210,7 @@ const config = {
       },
     },
   },
-  plugins: [nextui(), require('@tailwindcss/aspect-ratio'), require('tailwindcss-animate')],
+  plugins: [require('@tailwindcss/aspect-ratio'), require('tailwindcss-animate')],
 } satisfies Config;
 
 export default config;

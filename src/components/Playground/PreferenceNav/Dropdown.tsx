@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react';
 
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/Shared/popover';
-import { ChevronDownIcon } from '@heroicons/react/20/solid';
-import { BsCheckLg } from 'react-icons/bs';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components';
 import { Socket } from 'socket.io-client';
 import { DefaultEventsMap } from '@socket.io/component-emitter';
 import ACTIONS from '@/utils/action';
+import { Check, ChevronDown } from 'lucide-react';
 
 interface LanguageOption {
   id: string;
@@ -78,7 +77,7 @@ const DropDown: React.FC<DropDownProps> = ({ onLanguageSelect, socketRef, editor
       <PopoverTrigger>
         <div className="flex whitespace-nowrap !flex-row justify-center items-center m-1 rounded-md p-1 cursor-pointer hover:bg-gray-8  text-[#a8a8a8] text-sm font-normal">
           {selectedLanguage}
-          <ChevronDownIcon className="h-5 w-5" />
+          <ChevronDown className="h-5 w-5" />
         </div>
       </PopoverTrigger>
       <PopoverContent
@@ -94,7 +93,7 @@ const DropDown: React.FC<DropDownProps> = ({ onLanguageSelect, socketRef, editor
                 className={`flex items-center mr-2 ${
                   selectedLanguage === language.name ? 'visible' : 'invisible'
                 }`}>
-                <BsCheckLg />
+                <Check />
               </span>
               <div className="text-left text-[14px]">{language.name}</div>
             </div>
@@ -111,7 +110,7 @@ const DropDown: React.FC<DropDownProps> = ({ onLanguageSelect, socketRef, editor
                 className={`flex items-center mr-2 ${
                   selectedLanguage === language.name ? 'visible' : 'invisible'
                 }`}>
-                <BsCheckLg />
+                <Check />
               </span>
               <div className="text-left text-[14px]">{language.name}</div>
             </div>
@@ -128,7 +127,7 @@ const DropDown: React.FC<DropDownProps> = ({ onLanguageSelect, socketRef, editor
                 className={`flex items-center mr-2 ${
                   selectedLanguage === language.name ? 'visible' : 'invisible'
                 }`}>
-                <BsCheckLg />
+                <Check />
               </span>
               <div className="text-left text-[14px]">{language.name}</div>
             </div>

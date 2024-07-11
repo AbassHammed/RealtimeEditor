@@ -9,3 +9,4 @@ export { Popover, PopoverTrigger, PopoverContent } from './Shared/popover';
 export { useToast, toast, Toaster } from './Shared/toast';
 export { Button, buttonVariants } from './Shared/button';
 export { Tabs, TabsList, TabsTrigger, TabsContent } from './Shared/tabs';
+export { default as FontDrop } from './Shared/fontDrop';

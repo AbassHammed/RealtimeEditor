@@ -4,17 +4,16 @@ import { Socket } from 'socket.io-client';
 import { DefaultEventsMap } from '@socket.io/component-emitter';
 import ACTIONS from '@/utils/action';
 import EditorFooter from './Footer';
-import { useReadLocalStorage } from '@/hooks/useReadLocalStorage';
+import { useReadLocalStorage, useKeyboardShortcuts } from '@/hooks';
 import CodeMirror from '@uiw/react-codemirror';
 import { languages } from '@/lib/lang';
-import { useKeyboardShortcuts } from '@/hooks';
 
-type PlaygroundProps = {
+interface PlaygroundProps {
   socketRef: Socket<DefaultEventsMap, DefaultEventsMap> | null;
   onCodeChange: (value: string) => void;
   editorRoomId: string;
   socketId: string;
-};
+}
 
 const Playground = ({ socketRef, onCodeChange, editorRoomId, socketId }: PlaygroundProps) => {
   const [selectedLanguage, setSelectedLanguage] = useState('C++');

@@ -3,11 +3,11 @@ import React, { useCallback, useState } from 'react';
 import { useRouter } from 'next/router';
 
 import { setCollaboratorName, setEditorRoomId } from '@/redux/editorSlice';
-import { FaRegClipboard } from 'react-icons/fa';
+import { Clipboard } from 'lucide-react';
 import { useDispatch } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
 
-import { useToast } from '../Shared/toast';
+import { useToast } from '@/components';
 
 const CreateSession = () => {
   const [inputs, setInputs] = useState({ sessionName: '', sessionId: '' });
@@ -87,7 +87,7 @@ const CreateSession = () => {
 						bg-gray-600 border-gray-500 placeholder-gray-400 text-white"
             placeholder="Session ID"
           />
-          <FaRegClipboard
+          <Clipboard
             className="text-white cursor-pointer absolute right-3"
             onClick={handleGenerateSessionId}
           />

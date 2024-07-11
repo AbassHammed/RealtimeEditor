@@ -18,7 +18,7 @@ export const ModalProvider = ({ children }: { children: ReactNode }) => {
   return <ModalContext.Provider value={{ open, setOpen }}>{children}</ModalContext.Provider>;
 };
 
-export const useModal = () => {
+const useModal = () => {
   const context = useContext(ModalContext);
   if (!context) {
     throw new Error('useModal must be used within a ModalProvider');
@@ -51,18 +51,9 @@ export const ModalTrigger = ({
 };
 
 export const ModalBody = ({ children, className }: { children: ReactNode; className?: string }) => {
-  const { open } = useModal();
-
-  useEffect(() => {
-    if (open) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'auto';
-    }
-  }, [open]);
-
+  const { open, setOpen } = useModal();
   const modalRef = useRef(null);
-  const { setOpen } = useModal();
+  const closeModal = useCloseModal();
   useOnClickOutside(modalRef, () => setOpen(false));
 
   return (
@@ -80,13 +71,13 @@ export const ModalBody = ({ children, className }: { children: ReactNode; classN
             opacity: 0,
             backdropFilter: 'blur(0px)',
           }}
-          className="fixed [perspective:800px] [transform-style:preserve-3d] inset-0 h-full w-full  flex items-center justify-center z-50">
+          className="fixed [perspective:450px] [transform-style:preserve-3d] inset-0 h-full w-full  flex items-center justify-center z-50">
           <Overlay />
 
           <motion.div
             ref={modalRef}
             className={cn(
-              'min-h-[50%] max-h-[90%] md:max-w-[40%] bg-white dark:bg-neutral-950 border border-transparent dark:border-neutral-800 md:rounded-2xl relative z-50 flex flex-col flex-1 overflow-hidden',
+              'min-h-[50%] max-h-[90%] md:max-w-[40%] bg-white rounded-lg shadow bg-gradient-to-b from-brand-purple to-slate-900 border border-neutral-800 md:rounded-2xl relative z-50 flex flex-col flex-1',
               className,
             )}
             initial={{
@@ -111,7 +102,9 @@ export const ModalBody = ({ children, className }: { children: ReactNode; classN
               stiffness: 260,
               damping: 15,
             }}>
-            <X />
+            <button className="absolute top-4 right-4" onClick={() => closeModal()}>
+              <X />
+            </button>
             {children}
           </motion.div>
         </motion.div>
@@ -126,19 +119,7 @@ export const ModalContent = ({
 }: {
   children: ReactNode;
   className?: string;
-}) => <div className={cn('flex flex-col flex-1 p-8 md:p-10', className)}>{children}</div>;
-
-export const ModalFooter = ({
-  children,
-  className,
-}: {
-  children: ReactNode;
-  className?: string;
-}) => (
-  <div className={cn('flex justify-end p-4 bg-gray-100 dark:bg-neutral-900', className)}>
-    {children}
-  </div>
-);
+}) => <div className={cn('flex flex-col flex-1 py-10', className)}>{children}</div>;
 
 const Overlay = ({ className }: { className?: string }) => (
   <motion.div
@@ -155,3 +136,23 @@ const Overlay = ({ className }: { className?: string }) => (
     }}
     className={`fixed inset-0 h-full w-full bg-black bg-opacity-50 z-50 ${className}`}></motion.div>
 );
+
+function useCloseModal() {
+  const { setOpen } = useModal();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const closeModal = () => {
+    setOpen(false);
+  };
+
+  useEffect(() => {
+    const handleEsc = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        closeModal();
+      }
+    };
+    window.addEventListener('keydown', handleEsc);
+    return () => window.removeEventListener('keydown', handleEsc);
+  }, [closeModal]);
+
+  return closeModal;
+}

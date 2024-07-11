@@ -3,7 +3,7 @@ import DropDown from './Dropdown';
 import { DefaultEventsMap } from '@socket.io/component-emitter';
 import { Socket } from 'socket.io-client';
 import { Maximize2, Minimize2 } from 'lucide-react';
-import FontDrop from '@/components/Shared/fontDrop';
+import { FontDrop } from '@/components';
 
 type PreferenceNavProps = {
   socketRef: Socket<DefaultEventsMap, DefaultEventsMap> | null;

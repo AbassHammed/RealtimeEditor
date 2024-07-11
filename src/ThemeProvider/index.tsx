@@ -1,5 +1,5 @@
 import { Toaster } from '../components';
-import { SessionProvider } from '@/hooks/useSession';
+import { SessionProvider } from '@/hooks';
 import { ThemeProvider as NextThemeProvider } from 'next-themes';
 import { type ThemeProviderProps } from 'next-themes/dist/types';
 

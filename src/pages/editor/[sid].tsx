@@ -6,10 +6,8 @@ import { useSelector } from 'react-redux';
 import ACTIONS from '@/utils/action';
 import { RootState } from '@/redux/store';
 import socketInit from '@/utils/socket';
-import Topbar from '@/components/Topbar';
-import Playground from '@/components/Playground';
-import { useToast } from '@/components/Shared/toast';
 import { TClients } from '@/types';
+import { Playground, Topbar, useToast } from '@/components';
 
 const Editor: React.FC = () => {
   const [clients, setClients] = useState<TClients[]>([]);
