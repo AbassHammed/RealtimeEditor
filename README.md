@@ -5,9 +5,9 @@
   LetsCode Collaborative Editor
 </h1>
 
-![demo](public/demo.png)
+![demo](public/image.png)
 
-#### A simple collaborative code editor that allows people to work together in real-time. There is a lot more features to implement, like allowing people to work on several files or even a folder, maybe a maybe even a chat box for the collaborators to talk in real-time. Most of the UI are from NextUI library.
+#### A simple collaborative code editor that allows people to work together in real-time. There is a lot more features to implement, like allowing people to work on several files or even a folder, maybe even a chat box for the collaborators to talk in real-time.
 
 ## 🛠 Installation & Set Up
 
